@@ -25,7 +25,10 @@
       "@pages/*": ["./src/app/pages/*"],
       "@store/*": ["./src/app/store/*"],
       "@core/*": ["./src/app/core/*"],
-      "@shared/*": ["./src/app/shared/*"]
+      "@shared/*": ["./src/app/shared/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@models/*": ["./src/app/models/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "angularCompilerOptions": {

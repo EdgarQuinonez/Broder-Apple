@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '@shared/header/header.component';
+import { formatAccounting } from '@utils/formatAccounting';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,4 +9,7 @@ import { HeaderComponent } from '@shared/header/header.component';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {}
+export class DashboardComponent {
+  workingCapital = 11555.75;
+  formattedWorkingCapital = formatAccounting(this.workingCapital);
+}
