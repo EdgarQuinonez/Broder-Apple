@@ -2,7 +2,29 @@
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#263146",
+        secondary: "#f56565",
+        success: "#69E075",
+        error: "DE4545",
+        warning: "#f2c94d",
+        danger: "#f56565",
+        info: "#6366f1",
+      },
+      backgroundColor: {
+        main: "#010117",
+        accent: "#0D0D25",
+      },
+      textColor: {
+        main: "#E9E8E9",
+        dim: "#BABABA",
+        accent: "#0D0D25",
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };
