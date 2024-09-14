@@ -1,6 +1,12 @@
-<button
-  class="w-[5.5rem] h-[5.5rem] bg-primary flex flex-col items-center justify-center rounded-full"
+<a
+  [routerLink]="operationPath"
+  routerLinkActive="active"
+  ariaCurrentWhenActive="page"
 >
-  <lucide-icon [img]="icon" size="32" />
-  <p>{{ title }}</p>
-</button>
+  <button
+    class="w-[5.5rem] h-[5.5rem] bg-primary flex flex-col items-center justify-center rounded-full"
+  >
+    <lucide-icon [img]="icon" size="32" />
+    <p>{{ title }}</p>
+  </button>
+</a>
