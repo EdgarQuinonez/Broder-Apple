@@ -12,4 +12,6 @@ export class InputRadioComponent {
   @Input() icon: any;
   @Input() title!: string;
   @Input() name!: string;
+  @Input() value!: string;
+  @Input() checked!: boolean;
 }

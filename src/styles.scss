@@ -35,4 +35,8 @@
     @apply focus:outline-none focus:ring-0;
     @apply bg-transparent;
   }
+
+  input[type="radio"] {
+    -webkit-appearance: none;
+  }
 }

@@ -12,7 +12,19 @@
   </label>
 
   <div>
-    <app-input-radio icon="" title="Efectivo" name="paymentMethod" />
-    <app-input-radio icon="" title="Banco" name="paymentMethod" />
+    <app-input-radio
+      [icon]="BadgePlusIcon"
+      title="Efectivo"
+      name="paymentMethod"
+      [checked]="isCash"
+      value="cash"
+    />
+    <app-input-radio
+      [icon]="BadgeMinusIcon"
+      title="Banco"
+      name="paymentMethod"
+      [checked]="isBank"
+      value="bank"
+    />
   </div>
 </form>
