@@ -1,5 +1,23 @@
-<label class="w-full flex flex-row items-center justify-start bg-accent">
-  <input type="radio" [name]="name" />
-  <lucide-icon [img]="icon" />
-  <p>{{ title }}</p>
+<label
+  class="w-full flex flex-row items-center justify-start bg-accent h-10 rounded-md"
+>
+  <div
+    class="rounded-full w-6 h-6 relative cursor-pointer bg-primary items-center justify-center"
+  >
+    <input
+      type="radio"
+      [name]="name"
+      [value]="value"
+      [checked]="isChecked"
+      class="peer absolute opacity-0 h-0 w-0 cursor-pointer"
+    />
+    <!-- marker -->
+    <span
+      class="absolute h-4 w-4 bg-tertiary rounded-full invisible peer-checked:visible"
+    ></span>
+  </div>
+  <div class="ml-2 flex-row items-center justify-start gap-1">
+    <lucide-icon [img]="icon" />
+    <p>{{ title }}</p>
+  </div>
 </label>

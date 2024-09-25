@@ -3,27 +3,39 @@
     <lucide-icon [img]="XIcon" />
   </button>
 </a>
-<form action="" class="px-2 pt-8">
+<form
+  action=""
+  class="flex flex-1 h-full flex-col px-2 pt-8"
+  autocomplete="off"
+>
   <h1>Registrar Ingreso</h1>
 
-  <label class="flex flex-1 flex-row items-center justify-center">
-    <p>$</p>
-    <input type="number" placeholder="0" />
+  <label class="flex flex-row items-center justify-center w-full h-full">
+    <p class="text-xl mr-1">$</p>
+    <input
+      type="number"
+      class="text-left text-3xl placeholder:text-main"
+      [ngStyle]="currentStyles"
+      [(ngModel)]="amount"
+      placeholder="0"
+      (ngModelChange)="onAmountChange($event)"
+      name="amount"
+    />
   </label>
 
-  <div>
+  <div class="p-1 pb-2 gap-1">
     <app-input-radio
-      [icon]="BadgePlusIcon"
+      [icon]="BanknoteIcon"
       title="Efectivo"
       name="paymentMethod"
-      [checked]="isCash"
+      [isChecked]="isCash"
       value="cash"
     />
     <app-input-radio
-      [icon]="BadgeMinusIcon"
+      [icon]="CreditCardIcon"
       title="Banco"
       name="paymentMethod"
-      [checked]="isBank"
+      [isChecked]="isBank"
       value="bank"
     />
   </div>

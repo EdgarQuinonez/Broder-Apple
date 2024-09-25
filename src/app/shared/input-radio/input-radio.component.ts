@@ -12,6 +12,8 @@ export class InputRadioComponent {
   @Input() icon: any;
   @Input() title!: string;
   @Input() name!: string;
+  @Input() isChecked!: boolean;
   @Input() value!: string;
-  @Input() checked!: boolean;
+
+  isCash = this.value === 'cash';
 }
