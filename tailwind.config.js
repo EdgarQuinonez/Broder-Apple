@@ -20,6 +20,7 @@ module.exports = {
       textColor: {
         main: "#E9E8E9",
         dim: "#BABABA",
+        placeholder: "#7F7F7F",
         accent: "#0D0D25",
       },
       fontFamily: {

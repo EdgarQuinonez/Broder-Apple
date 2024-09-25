@@ -9,12 +9,16 @@ import {
   BanknoteIcon,
   CreditCardIcon,
 } from 'lucide-angular';
+import { InputTextComponent } from '@shared/input-text/input-text.component';
+import { ButtonPrimaryComponent } from '@shared/button-primary/button-primary.component';
 
 @Component({
   selector: 'app-income',
   standalone: true,
   imports: [
     InputRadioComponent,
+    InputTextComponent,
+    ButtonPrimaryComponent,
     LucideAngularModule,
     RouterLink,
     RouterLinkActive,

@@ -39,4 +39,32 @@
   input[type="radio"] {
     -webkit-appearance: none;
   }
+
+  input[type="text"] {
+    box-sizing: border-box;
+
+    background: none;
+    box-shadow: none;
+
+    outline: none;
+
+    font: inherit;
+    color: inherit;
+
+    width: auto;
+    height: auto;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    text-align: left;
+
+    caret-color: auto;
+
+    ::placeholder {
+      color: inherit;
+      opacity: 1;
+    }
+  }
 }
