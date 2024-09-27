@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ChevronRightIcon, LucideAngularModule } from 'lucide-angular';
 
 @Component({
@@ -9,5 +9,7 @@ import { ChevronRightIcon, LucideAngularModule } from 'lucide-angular';
   styleUrl: './button-primary.component.scss',
 })
 export class ButtonPrimaryComponent {
+  @Input() type!: string;
+
   ChevronRightIcon = ChevronRightIcon;
 }

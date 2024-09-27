@@ -4,7 +4,8 @@
   </button>
 </a>
 <form
-  action=""
+  [formGroup]="transactionForm"
+  (ngSubmit)="handleSubmit()"
   class="flex flex-1 h-full flex-col px-2 pt-8"
   autocomplete="off"
 >
@@ -16,7 +17,7 @@
       type="number"
       class="text-left text-3xl placeholder:text-main"
       [ngStyle]="currentStyles"
-      [(ngModel)]="amount"
+      formControlName="amount"
       placeholder="0"
       (ngModelChange)="onAmountChange($event)"
       name="amount"
@@ -26,6 +27,7 @@
   <div class="p-1 pb-2 gap-1">
     <app-input-radio
       [icon]="BanknoteIcon"
+      formControlName="paymentMethod"
       title="Efectivo"
       name="paymentMethod"
       [isChecked]="isCash"
@@ -34,6 +36,7 @@
     <app-input-radio
       [icon]="CreditCardIcon"
       title="Banco"
+      formControlName="paymentMethod"
       name="paymentMethod"
       [isChecked]="isBank"
       value="bank"
@@ -41,9 +44,13 @@
   </div>
   <div>
     <h3 class="">Concepto:</h3>
-    <app-input-text name="description" placeholder="ej. Regalo de Mimx" />
+    <app-input-text
+      formControlName="description"
+      name="description"
+      placeholder="ej. Regalo de Mimx"
+    />
   </div>
   <div class="mt-1 mb-3">
-    <app-button-primary />
+    <app-button-primary type="submit" />
   </div>
 </form>
