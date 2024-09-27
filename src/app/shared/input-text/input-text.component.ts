@@ -16,15 +16,35 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class InputTextComponent implements ControlValueAccessor {
-  onChange = (value: boolean) => {};
-
   @Input() name!: string;
   @Input() placeholder!: string;
   @Input() value!: string;
 
-  registerOnChange(fn: (value: boolean) => void): void {
+  onChange = (value: string) => {};
+  onTouched = () => {};
+  isDisabled: boolean = false;
+
+  // Method to handle input changes and call onChange
+  handleInputChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.value = input.value;
+    this.onChange(this.value);
+  }
+
+  // ControlValueAccessor methods
+  writeValue(value: string): void {
+    this.value = value || ''; // Update internal value, provide fallback for null/undefined
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
-  writeValue() {}
-  registerOnTouched() {}
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
+  }
 }

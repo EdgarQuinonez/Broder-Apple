@@ -4,5 +4,10 @@
     [name]="name"
     class="w-full flex-1 h-8 rounded-md border-solid border-2 border-primary px-2 py-3 bg-accent text-main"
     [placeholder]="placeholder"
+    [value]="value"
+    (input)="handleInputChange($event)"
+    (blur)="onTouched()"
+    [placeholder]="placeholder"
+    [disabled]="isDisabled"
   />
 </label>
