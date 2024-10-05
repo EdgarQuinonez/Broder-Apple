@@ -22,6 +22,7 @@
     "@angular/router": "^18.2.0",
     "@angular/ssr": "^18.2.4",
     "accounting-js": "^1.1.1",
+    "axios": "^1.7.7",
     "express": "^4.18.2",
     "lucide-angular": "^0.441.0",
     "rxjs": "~7.8.0",

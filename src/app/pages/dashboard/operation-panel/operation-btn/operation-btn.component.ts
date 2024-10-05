@@ -4,6 +4,8 @@ import {
   LucideAngularModule,
   BadgePlusIcon,
   BadgeMinusIcon,
+  BanknoteIcon,
+  ShoppingBagIcon,
 } from 'lucide-angular';
 
 @Component({
@@ -11,10 +13,10 @@ import {
   standalone: true,
   imports: [LucideAngularModule, RouterLink, RouterLinkActive],
   templateUrl: './operation-btn.component.html',
-  styleUrl: './operation-btn.component.scss',
+  styleUrls: ['./operation-btn.component.scss'],
 })
 export class OperationBtnComponent {
-  @Input({ required: true }) type!: 'income' | 'expense';
+  @Input({ required: true }) type!: 'income' | 'expense' | 'purchase' | 'sale';
 
   icon: any;
   title: string;
@@ -26,14 +28,27 @@ export class OperationBtnComponent {
   }
 
   ngOnInit() {
-    if (this.type === 'income') {
-      this.icon = BadgePlusIcon;
-      this.title = 'Ingreso';
-      this.operationPath = '/operation/income';
-    } else {
-      this.icon = BadgeMinusIcon;
-      this.title = 'Egreso';
-      this.operationPath = '/operation/expense';
+    switch (this.type) {
+      case 'income':
+        this.icon = BadgePlusIcon;
+        this.title = 'Ingreso';
+        this.operationPath = '/operation/income';
+        break;
+      case 'expense':
+        this.icon = BadgeMinusIcon;
+        this.title = 'Egreso';
+        this.operationPath = '/operation/expense';
+        break;
+      case 'purchase':
+        this.icon = ShoppingBagIcon;
+        this.title = 'Compra';
+        this.operationPath = '/operation/purchase';
+        break;
+      case 'sale':
+        this.icon = BanknoteIcon;
+        this.title = 'Venta';
+        this.operationPath = '/operation/sale';
+        break;
     }
   }
 }

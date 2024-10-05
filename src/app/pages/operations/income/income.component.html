@@ -17,6 +17,7 @@
       type="number"
       class="text-left text-3xl placeholder:text-main"
       [ngStyle]="currentStyles"
+      min="0"
       formControlName="amount"
       placeholder="0"
       (ngModelChange)="onAmountChange($event)"
