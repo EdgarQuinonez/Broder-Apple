@@ -12,6 +12,7 @@ module.exports = {
         warning: "#f2c94d",
         danger: "#f56565",
         info: "#6366f1",
+        dim: "#BABABA",
       },
       backgroundColor: {
         main: "#010117",

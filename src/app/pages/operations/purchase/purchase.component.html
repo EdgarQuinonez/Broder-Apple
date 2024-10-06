@@ -1,1 +1,86 @@
-<p>purchase works!</p>
+<div>
+  <a routerLink="" class="absolute right-2 top-2">
+    <button class="unstyled p-4">
+      <lucide-icon [img]="XIcon" />
+    </button>
+  </a>
+
+  <!-- Search Section -->
+
+  <form class="mt-8 px-2">
+    <h1 class="my-2">Registrar Compra</h1>
+    <div class="flex-row gap-2 items-center">
+      <label
+        class="flex flex-1 border border-solid border-primary rounded-md px-1 py-2"
+      >
+        <lucide-icon [img]="SearchIcon" class="mr-1" />
+        <input
+          type="text"
+          name="product"
+          placeholder="ej. iPhone 12"
+          (input)="onSearchChange($event)"
+        />
+      </label>
+      <button class="flex flex-row gap-1 bg-success">
+        <lucide-icon [img]="PlusIcon" />
+        <p>Nuevo</p>
+      </button>
+    </div>
+
+    <!-- Results -->
+    <ul *ngIf="fakeResults.length > 0" class="mt-4 h-[18rem] w-full bg-accent">
+      <li
+        *ngFor="let result of fakeResults"
+        class="my-2 flex flex-row items-center"
+      >
+        <label
+          class="w-full flex flex-row items-center justify-start bg-accent h-[3.25rem] px-2 rounded-md"
+        >
+          <div
+            class="rounded-full w-6 h-6 relative cursor-pointer bg-primary items-center justify-center"
+          >
+            <input
+              type="radio"
+              name="productSelection"
+              [value]="result.id"
+              [checked]="selectedResultId === result.id"
+              class="peer absolute opacity-0 h-0 w-0 cursor-pointer"
+              (change)="handleInputChange($event, result.id)"
+            />
+            <!-- marker -->
+            <span
+              class="absolute h-4 w-4 bg-tertiary rounded-full invisible peer-checked:visible"
+            ></span>
+          </div>
+          <div class="ml-2 flex-row items-center justify-between">
+            <p>{{ result.title }}</p>
+            <p><span class="mr-1 font-bold">$</span>{{ result.price }}</p>
+          </div>
+        </label>
+      </li>
+    </ul>
+    <div
+      *ngIf="fakeResults.length === 0"
+      class="mt-4 h-[18rem] w-full bg-accent"
+    >
+      <p>No se encontraron productos.</p>
+    </div>
+  </form>
+
+  <!-- Selected Product Info Display -->
+  <div *ngIf="selectedResult" class="mt-4 bg-accent p-4 rounded-md">
+    <h2 class="text-center">{{ selectedResult.title }}</h2>
+    <p><strong>Brand:</strong> {{ selectedResult.brand }}</p>
+    <p><strong>Model:</strong> {{ selectedResult.model }}</p>
+    <p>
+      <strong>Storage Capacity:</strong> {{ selectedResult.storageCapacity }}
+    </p>
+    <p><strong>Carrier:</strong> {{ selectedResult.carrier }}</p>
+    <p><strong>SIM Slots:</strong> {{ selectedResult.simSlots }}</p>
+    <p><strong>Seller:</strong> {{ selectedResult.seller }}</p>
+    <p><strong>Buyout Price:</strong> {{ selectedResult.buyoutPrice }}</p>
+    <p><strong>Shipping Costs:</strong> {{ selectedResult.shippingCosts }}</p>
+  </div>
+</div>
+
+<app-button-primary class="px-2 py-3"></app-button-primary>

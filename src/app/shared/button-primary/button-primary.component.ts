@@ -11,5 +11,7 @@ import { ChevronRightIcon, LucideAngularModule } from 'lucide-angular';
 export class ButtonPrimaryComponent {
   @Input() type!: string;
 
+  // TODO: Add possibility to change text content and bg color
+
   ChevronRightIcon = ChevronRightIcon;
 }
