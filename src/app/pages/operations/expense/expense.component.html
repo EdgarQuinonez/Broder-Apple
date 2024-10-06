@@ -1,0 +1,57 @@
+<a routerLink="" class="absolute right-2 top-2">
+  <button class="unstyled p-4">
+    <lucide-icon [img]="XIcon" />
+  </button>
+</a>
+<form
+  [formGroup]="transactionForm"
+  (ngSubmit)="handleSubmit()"
+  class="flex flex-1 h-full flex-col px-2 pt-8"
+  autocomplete="off"
+>
+  <h1>Registrar Gasto</h1>
+
+  <label class="flex flex-row items-center justify-center w-full h-full">
+    <p class="text-xl mr-1">$</p>
+    <input
+      type="number"
+      class="text-left text-3xl placeholder:text-main"
+      [ngStyle]="currentStyles"
+      min="0"
+      formControlName="amount"
+      placeholder="0"
+      (ngModelChange)="onAmountChange($event)"
+      name="amount"
+    />
+  </label>
+
+  <div class="p-1 pb-2 gap-1">
+    <app-input-radio
+      [icon]="BanknoteIcon"
+      formControlName="paymentMethod"
+      title="Efectivo"
+      name="paymentMethod"
+      [isChecked]="isCash"
+      value="cash"
+    />
+    <app-input-radio
+      [icon]="CreditCardIcon"
+      title="Banco"
+      formControlName="paymentMethod"
+      name="paymentMethod"
+      [isChecked]="isBank"
+      value="bank"
+    />
+  </div>
+  <div>
+    <h3 class="">Concepto:</h3>
+    <app-input-text
+      formControlName="description"
+      name="description"
+      placeholder="ej. Regalo de Mimx"
+    />
+  </div>
+  <div class="mt-1 mb-3">
+    <app-button-primary type="submit" />
+  </div>
+</form>
