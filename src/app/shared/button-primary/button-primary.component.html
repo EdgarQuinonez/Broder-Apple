@@ -1,8 +1,8 @@
 <button
   [type]="type"
-  class="flex flex-row w-full px-2 py-3 h-[3.25rem] items-center justify-between bg-secondary rounded-md"
+  [ngClass]="bgColor"
+  class="flex flex-row w-full px-2 py-3 h-[3.25rem] items-center justify-center rounded-md"
 >
-  <span class="w-6 h-6s"></span>
-  <p>Siguiente</p>
+  <p>{{ buttonText }}</p>
   <lucide-icon [img]="ChevronRightIcon" />
 </button>

@@ -6,7 +6,6 @@
   </a>
 
   <!-- Search Section -->
-
   <form class="mt-8 px-2">
     <h1 class="my-2">Registrar Compra</h1>
     <div class="flex-row gap-2 items-center">
@@ -70,16 +69,41 @@
   <!-- Selected Product Info Display -->
   <div *ngIf="selectedResult" class="mt-4 bg-accent p-4 rounded-md">
     <h2 class="text-center">{{ selectedResult.title }}</h2>
-    <p><strong>Brand:</strong> {{ selectedResult.brand }}</p>
-    <p><strong>Model:</strong> {{ selectedResult.model }}</p>
-    <p>
-      <strong>Storage Capacity:</strong> {{ selectedResult.storageCapacity }}
-    </p>
-    <p><strong>Carrier:</strong> {{ selectedResult.carrier }}</p>
-    <p><strong>SIM Slots:</strong> {{ selectedResult.simSlots }}</p>
-    <p><strong>Seller:</strong> {{ selectedResult.seller }}</p>
-    <p><strong>Buyout Price:</strong> {{ selectedResult.buyoutPrice }}</p>
-    <p><strong>Shipping Costs:</strong> {{ selectedResult.shippingCosts }}</p>
+    <table class="w-full mt-4">
+      <tr>
+        <td class="font-bold">Marca:</td>
+        <td>{{ selectedResult.brand }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Modelo:</td>
+        <td>{{ selectedResult.model }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Almacenamiento:</td>
+        <td>{{ selectedResult.storageCapacity }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Compañía:</td>
+        <td>{{ selectedResult.carrier }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Ranuras de SIM:</td>
+        <td>{{ selectedResult.simSlots }}</td>
+      </tr>
+
+      <tr>
+        <td class="font-bold">Vendedor:</td>
+        <td>{{ selectedResult.seller }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Precio de Compra:</td>
+        <td>{{ selectedResult.buyoutPrice }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Costos de Envío:</td>
+        <td>{{ selectedResult.shippingCosts }}</td>
+      </tr>
+    </table>
   </div>
 </div>
 
