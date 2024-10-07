@@ -1,19 +1,59 @@
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {
+  Router,
+  ActivatedRoute,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
+import {
+  ArrowLeftIcon,
+  BanknoteIcon,
+  CreditCardIcon,
+  LucideAngularModule,
+  PlusIcon,
+} from 'lucide-angular';
 import { Observable, of } from 'rxjs';
+import { Location } from '@angular/common'; // Import Location service
+import { InputRadioComponent } from '@shared/input-radio/input-radio.component';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-purchase-detail',
   standalone: true,
-  imports: [NgIf],
+  imports: [
+    NgIf,
+    LucideAngularModule,
+    RouterLink,
+    RouterLinkActive,
+    InputRadioComponent,
+    ReactiveFormsModule,
+  ],
   templateUrl: './purchase-detail.component.html',
   styleUrl: './purchase-detail.component.scss',
 })
 export class PurchaseDetailComponent {
+  ArrowLeftIcon = ArrowLeftIcon;
+  BanknoteIcon = BanknoteIcon;
+  CreditCardIcon = CreditCardIcon;
+  PlusIcon = PlusIcon;
+
   selectedProduct: any;
+  totalCost: number = 0;
+
+  paymentMethod = 'cash';
+  isCash = this.paymentMethod === 'cash';
+  isBank = this.paymentMethod === 'bank';
+
+  transactionForm = new FormGroup({
+    type: new FormControl('income'),
+    amount: new FormControl(0),
+    description: new FormControl(''),
+    paymentMethod: new FormControl('cash'),
+  });
 
   // TODO: Mocked product data (replace this with service calls if you have an API)
+  // TODO: Add product types
   allProducts = [
     {
       id: 1,
@@ -69,7 +109,7 @@ export class PurchaseDetailComponent {
     },
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private _location: Location) {}
 
   ngOnInit() {
     // Fetch the product ID from the route
@@ -79,5 +119,18 @@ export class PurchaseDetailComponent {
     this.selectedProduct = this.allProducts.find(
       (product) => product.id === productId
     );
+
+    this.totalCost =
+      this.selectedProduct.price + this.selectedProduct.shippingCosts;
+  }
+
+  // Method to go back to the previous page
+  goBack() {
+    this._location.back();
+  }
+
+  // TODO: Perform double entry accounting movements for the purchase and add the purchased item to inventory.
+  handleSubmit() {
+    console.log('Form submitted');
   }
 }

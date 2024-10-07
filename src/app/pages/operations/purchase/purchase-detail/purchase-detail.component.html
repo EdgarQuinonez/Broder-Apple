@@ -1,43 +1,83 @@
-<div *ngIf="selectedProduct" class="product-details">
-  <h1>{{ selectedProduct.title }}</h1>
-  <table class="table-auto w-full mt-4">
-    <tbody>
-      <tr>
-        <td class="font-bold">Brand:</td>
-        <td>{{ selectedProduct.brand }}</td>
-      </tr>
-      <tr>
-        <td class="font-bold">Model:</td>
-        <td>{{ selectedProduct.model }}</td>
-      </tr>
-      <tr>
-        <td class="font-bold">Storage Capacity:</td>
-        <td>{{ selectedProduct.storageCapacity }}</td>
-      </tr>
-      <tr>
-        <td class="font-bold">Carrier:</td>
-        <td>{{ selectedProduct.carrier }}</td>
-      </tr>
-      <tr>
-        <td class="font-bold">SIM Slots:</td>
-        <td>{{ selectedProduct.simSlots }}</td>
-      </tr>
-      <tr>
-        <td class="font-bold">Seller:</td>
-        <td>{{ selectedProduct.seller }}</td>
-      </tr>
-      <tr>
-        <td class="font-bold">Buyout Price:</td>
-        <td>${{ selectedProduct.buyoutPrice }}</td>
-      </tr>
-      <tr>
-        <td class="font-bold">Shipping Costs:</td>
-        <td>${{ selectedProduct.shippingCosts }}</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="w-full py-3 px-2">
+  <button class="unstyled" (click)="goBack()">
+    <lucide-icon [img]="ArrowLeftIcon" />
+  </button>
 </div>
 
-<div *ngIf="!selectedProduct">
-  <p>Product not found.</p>
-</div>
+<form
+  [formGroup]="transactionForm"
+  (ngSubmit)="handleSubmit()"
+  class="flex flex-col flex-1"
+>
+  <div class="w-full px-2 py-3">
+    <h1 class="text-center">Detalle de Compra</h1>
+  </div>
+  <!-- Purchase Review -->
+  <section>
+    <h2>{{ selectedProduct.title }}</h2>
+
+    <table>
+      <tr>
+        <td>Precio</td>
+        <td>{{ selectedProduct.price }}</td>
+      </tr>
+      <tr>
+        <td>Envío</td>
+        <td>{{ selectedProduct.shippingCosts }}</td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td>{{ totalCost }}</td>
+      </tr>
+    </table>
+  </section>
+  <!-- Payment Method -->
+  <section>
+    <h2>Método de Pago</h2>
+    <app-input-radio
+      [icon]="BanknoteIcon"
+      formControlName="paymentMethod"
+      title="Efectivo"
+      name="paymentMethod"
+      [isChecked]="isCash"
+      value="cash"
+    />
+    <app-input-radio
+      [icon]="CreditCardIcon"
+      title="Banco"
+      formControlName="paymentMethod"
+      name="paymentMethod"
+      [isChecked]="isBank"
+      value="bank"
+    />
+  </section>
+
+  <!-- Actors -->
+  <section>
+    <h2>Distribución de la Inversión</h2>
+    <!-- Actors List -->
+    <div>
+      <div>
+        <ul>
+          <li>
+            <div class="h-4 w-4 bg-red-500"></div>
+            <p>Edgar Quiñónez</p>
+            <label>
+              <p class="font-bold">$</p>
+              <input type="number" name="quantity" />
+            </label>
+            <label>
+              <input type="number" name="percentage" />
+              <p class="font-bold">%</p>
+            </label>
+          </li>
+        </ul>
+        <button type="button">
+          <lucide-icon [img]="PlusIcon" />
+          <p>Agregar Inversionista</p>
+        </button>
+      </div>
+      <!-- Pie chart -->
+    </div>
+  </section>
+</form>
