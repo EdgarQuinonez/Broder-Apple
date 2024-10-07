@@ -1,0 +1,43 @@
+<div *ngIf="selectedProduct" class="product-details">
+  <h1>{{ selectedProduct.title }}</h1>
+  <table class="table-auto w-full mt-4">
+    <tbody>
+      <tr>
+        <td class="font-bold">Brand:</td>
+        <td>{{ selectedProduct.brand }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Model:</td>
+        <td>{{ selectedProduct.model }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Storage Capacity:</td>
+        <td>{{ selectedProduct.storageCapacity }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Carrier:</td>
+        <td>{{ selectedProduct.carrier }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">SIM Slots:</td>
+        <td>{{ selectedProduct.simSlots }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Seller:</td>
+        <td>{{ selectedProduct.seller }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Buyout Price:</td>
+        <td>${{ selectedProduct.buyoutPrice }}</td>
+      </tr>
+      <tr>
+        <td class="font-bold">Shipping Costs:</td>
+        <td>${{ selectedProduct.shippingCosts }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="!selectedProduct">
+  <p>Product not found.</p>
+</div>

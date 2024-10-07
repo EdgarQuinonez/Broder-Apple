@@ -4,10 +4,18 @@ import {
   XIcon,
   SearchIcon,
   PlusIcon,
+  ChevronRightIcon,
 } from 'lucide-angular';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  RouterLink,
+  RouterLinkActive,
+  Router,
+  ActivatedRoute,
+} from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { ButtonPrimaryComponent } from '@shared/button-primary/button-primary.component';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-purchase',
@@ -25,12 +33,12 @@ import { ButtonPrimaryComponent } from '@shared/button-primary/button-primary.co
 })
 export class PurchaseComponent {
   XIcon = XIcon;
+  ChevronRightIcon = ChevronRightIcon;
   SearchIcon = SearchIcon;
   PlusIcon = PlusIcon;
 
   searchTerm: string = '';
   fakeResults: { id: number; title: string; price: number }[] = [];
-  selectedResultId: number | null = null;
   selectedResult: any = null;
 
   allProducts = [
@@ -43,7 +51,6 @@ export class PurchaseComponent {
       storageCapacity: '128GB',
       carrier: 'Unlocked',
       simSlots: 1,
-
       seller: 'Best Buy',
       buyoutPrice: 5500,
       shippingCosts: 100,
@@ -57,7 +64,6 @@ export class PurchaseComponent {
       storageCapacity: '256GB',
       carrier: 'T-Mobile',
       simSlots: 1,
-
       seller: 'Amazon',
       buyoutPrice: 5300,
       shippingCosts: 80,
@@ -71,7 +77,6 @@ export class PurchaseComponent {
       storageCapacity: '128GB',
       carrier: 'Unlocked',
       simSlots: 2,
-
       seller: 'OnePlus Store',
       buyoutPrice: 5400,
       shippingCosts: 50,
@@ -85,15 +90,34 @@ export class PurchaseComponent {
       storageCapacity: '128GB',
       carrier: 'Verizon',
       simSlots: 1,
-
       seller: 'Google Store',
       buyoutPrice: 5400,
       shippingCosts: 70,
     },
   ];
 
+  selectedResultId: number | null = null;
+  fragment$!: Observable<string | null>;
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
   ngOnInit() {
+    // Populate products based on search or all products
     this.fakeResults = [...this.allProducts];
+
+    // Access query params and fragments from the route
+    this.route.queryParams.subscribe((params) => {
+      const productId = params['id'];
+      if (productId) {
+        this.selectedResult = this.allProducts.find(
+          (product) => product.id === +productId
+        );
+        this.selectedResultId = +productId;
+      }
+    });
+
+    // Access fragment
+    this.fragment$ = this.route.fragment;
   }
 
   onSearchChange(event: any) {
@@ -113,5 +137,19 @@ export class PurchaseComponent {
     this.selectedResult = this.allProducts.find(
       (product) => product.id === productId
     );
+
+    // Update the query parameters
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { id: productId },
+      fragment: 'product-details', // Optionally set a fragment
+      queryParamsHandling: 'merge', // Keep the existing query params
+    });
+  }
+
+  navigateToDetail(): void {
+    if (this.selectedResultId !== null) {
+      this.router.navigate([`/operation/purchase/${this.selectedResultId}`]);
+    }
   }
 }

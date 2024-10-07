@@ -90,7 +90,6 @@
         <td class="font-bold">Ranuras de SIM:</td>
         <td>{{ selectedResult.simSlots }}</td>
       </tr>
-
       <tr>
         <td class="font-bold">Vendedor:</td>
         <td>{{ selectedResult.seller }}</td>
@@ -107,4 +106,9 @@
   </div>
 </div>
 
-<app-button-primary class="px-2 py-3"></app-button-primary>
+<div class="px-2 py-3">
+  <button class="primary bg-primary" (click)="navigateToDetail()">
+    <p>Siguiente</p>
+    <lucide-icon [img]="ChevronRightIcon" />
+  </button>
+</div>
