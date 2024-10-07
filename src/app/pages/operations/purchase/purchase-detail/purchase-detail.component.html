@@ -77,7 +77,14 @@
           <p>Agregar Inversionista</p>
         </button>
       </div>
-      <!-- Pie chart -->
+      <canvas
+        baseChart
+        [data]="pieChartData"
+        [labels]="pieChartLabels"
+        [type]="pieChartType"
+        [options]="pieChartOptions"
+      >
+      </canvas>
     </div>
   </section>
 </form>

@@ -17,6 +17,8 @@ import { Observable, of } from 'rxjs';
 import { Location } from '@angular/common'; // Import Location service
 import { InputRadioComponent } from '@shared/input-radio/input-radio.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Chart, ChartType, ChartOptions, ChartData } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-purchase-detail',
@@ -28,6 +30,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
     RouterLinkActive,
     InputRadioComponent,
     ReactiveFormsModule,
+    BaseChartDirective,
   ],
   templateUrl: './purchase-detail.component.html',
   styleUrl: './purchase-detail.component.scss',
@@ -40,6 +43,26 @@ export class PurchaseDetailComponent {
 
   selectedProduct: any;
   totalCost: number = 0;
+
+  // TODO: Fetch actors from the API. Actors already added in the business.
+  public pieChartLabels: string[][] = [['Investor 1'], ['Investor 2']];
+  public pieChartData: ChartData<'pie', number[], string[]> = {
+    labels: [['Investor 1'], ['Investor 2']],
+    datasets: [
+      {
+        data: [50, 50],
+      },
+    ],
+  };
+  public pieChartType: ChartType = 'pie';
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+    },
+  };
 
   paymentMethod = 'cash';
   isCash = this.paymentMethod === 'cash';
