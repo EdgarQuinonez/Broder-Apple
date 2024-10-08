@@ -7,84 +7,109 @@
 <form
   [formGroup]="transactionForm"
   (ngSubmit)="handleSubmit()"
-  class="flex flex-col flex-1"
+  class="flex flex-col flex-1 px-2 justify-between"
 >
-  <div class="w-full px-2 py-3">
-    <h1 class="text-center">Detalle de Compra</h1>
-  </div>
-  <!-- Purchase Review -->
-  <section>
-    <h2>{{ selectedProduct.title }}</h2>
-
-    <table>
-      <tr>
-        <td>Precio</td>
-        <td>{{ selectedProduct.price }}</td>
-      </tr>
-      <tr>
-        <td>Envío</td>
-        <td>{{ selectedProduct.shippingCosts }}</td>
-      </tr>
-      <tr>
-        <td>Total</td>
-        <td>{{ totalCost }}</td>
-      </tr>
-    </table>
-  </section>
-  <!-- Payment Method -->
-  <section>
-    <h2>Método de Pago</h2>
-    <app-input-radio
-      [icon]="BanknoteIcon"
-      formControlName="paymentMethod"
-      title="Efectivo"
-      name="paymentMethod"
-      [isChecked]="isCash"
-      value="cash"
-    />
-    <app-input-radio
-      [icon]="CreditCardIcon"
-      title="Banco"
-      formControlName="paymentMethod"
-      name="paymentMethod"
-      [isChecked]="isBank"
-      value="bank"
-    />
-  </section>
-
-  <!-- Actors -->
-  <section>
-    <h2>Distribución de la Inversión</h2>
-    <!-- Actors List -->
-    <div>
-      <div>
-        <ul>
-          <li>
-            <div class="h-4 w-4 bg-red-500"></div>
-            <p>Edgar Quiñónez</p>
-            <label>
-              <p class="font-bold">$</p>
-              <input type="number" name="quantity" />
-            </label>
-            <label>
-              <input type="number" name="percentage" />
-              <p class="font-bold">%</p>
-            </label>
-          </li>
-        </ul>
-        <button type="button">
-          <lucide-icon [img]="PlusIcon" />
-          <p>Agregar Inversionista</p>
-        </button>
-      </div>
-      <canvas
-        baseChart
-        [data]="pieChartData"
-        [labels]="pieChartLabels"
-        [type]="pieChartType"
-        [options]="pieChartOptions"
-      >
-      </canvas>
+  <div class="gap-2">
+    <div class="w-full px-2 py-3">
+      <h1 class="text-center">Detalle de Compra</h1>
     </div>
-  </section>
+    <!-- Purchase Review -->
+    <section>
+      <h2>{{ selectedProduct.title }}</h2>
+
+      <table class="w-32 mt-2 ml-2">
+        <tr>
+          <td>Precio</td>
+          <td>{{ selectedProduct.price }}</td>
+        </tr>
+        <tr>
+          <td>Envío</td>
+          <td>{{ selectedProduct.shippingCosts }}</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td>{{ totalCost }}</td>
+        </tr>
+      </table>
+    </section>
+    <!-- Payment Method -->
+    <section>
+      <h2>Método de Pago</h2>
+      <app-input-radio
+        [icon]="BanknoteIcon"
+        formControlName="paymentMethod"
+        title="Efectivo"
+        name="paymentMethod"
+        [isChecked]="isCash"
+        value="cash"
+      />
+      <app-input-radio
+        [icon]="CreditCardIcon"
+        title="Banco"
+        formControlName="paymentMethod"
+        name="paymentMethod"
+        [isChecked]="isBank"
+        value="bank"
+      />
+    </section>
+
+    <!-- Actors -->
+    <section>
+      <h2>Distribución de la Inversión</h2>
+      <!-- Actors List -->
+      <div class="flex flex-row items-center justify-center gap-0">
+        <div>
+          <!-- TODO: Dynamic list of investors -->
+          <ul>
+            <li class="flex flex-row w-full gap-2 items-center justify-center">
+              <div class="h-4 w-4 bg-red-500 rounded-full"></div>
+              <p class="overflow-hidden text-ellipsis text-nowrap">
+                Edgar Quiñónez
+              </p>
+              <label
+                class="flex flex-row border border-solid border-primary p-1 w-16 rounded-md"
+              >
+                <p class="font-bold mr-1">$</p>
+                <input type="number" name="quantity" class="w-full" />
+              </label>
+              <label
+                class="flex flex-row border border-solid border-primary p-1 w-16 rounded-md"
+              >
+                <input type="number" name="percentage" class="w-full" />
+                <p class="font-bold">%</p>
+              </label>
+            </li>
+          </ul>
+          <button
+            type="button"
+            class="bg-primary flex flex-row items-center justify-center gap-2"
+          >
+            <lucide-icon [img]="PlusIcon" />
+            <p>Agregar Inversionista</p>
+          </button>
+        </div>
+        <!-- TODO: Fix SSR error with chart.js "NOT YET IMPLEMENTED" https://stackoverflow.com/questions/34294054/how-to-implement-single-line-ellipsis-with-css -->
+        <canvas
+          baseChart
+          [labels]="doughnutChartLabels"
+          [datasets]="doughnutChartDatasets"
+          [options]="doughnutChartOptions"
+          [legend]="true"
+          [type]="'doughnut'"
+          width="94"
+          height="94"
+        >
+        </canvas>
+      </div>
+    </section>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="py-3 self-end">
+    <!-- TODO: Should submit the form, show a success message and redirect to inventory maybe -->
+    <button class="primary bg-secondary">
+      <p>Terminar</p>
+      <lucide-icon [img]="ChevronRightIcon" />
+    </button>
+  </div>
 </form>

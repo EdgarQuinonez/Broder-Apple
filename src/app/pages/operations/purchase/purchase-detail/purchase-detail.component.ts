@@ -9,6 +9,7 @@ import {
 import {
   ArrowLeftIcon,
   BanknoteIcon,
+  ChevronRightIcon,
   CreditCardIcon,
   LucideAngularModule,
   PlusIcon,
@@ -17,7 +18,13 @@ import { Observable, of } from 'rxjs';
 import { Location } from '@angular/common'; // Import Location service
 import { InputRadioComponent } from '@shared/input-radio/input-radio.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Chart, ChartType, ChartOptions, ChartData } from 'chart.js';
+import {
+  Chart,
+  ChartType,
+  ChartOptions,
+  ChartData,
+  ChartConfiguration,
+} from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
@@ -39,30 +46,48 @@ export class PurchaseDetailComponent {
   ArrowLeftIcon = ArrowLeftIcon;
   BanknoteIcon = BanknoteIcon;
   CreditCardIcon = CreditCardIcon;
+  ChevronRightIcon = ChevronRightIcon;
   PlusIcon = PlusIcon;
 
   selectedProduct: any;
   totalCost: number = 0;
 
-  // TODO: Fetch actors from the API. Actors already added in the business.
-  public pieChartLabels: string[][] = [['Investor 1'], ['Investor 2']];
-  public pieChartData: ChartData<'pie', number[], string[]> = {
-    labels: [['Investor 1'], ['Investor 2']],
-    datasets: [
+  // TODO: Fetch actors from the API.
+  // ------------------ Doughnut Chart Configuration ------------------
+
+  public doughnutChartLabels: string[] = ['Investor 1', 'Investor 2'];
+
+  // TODO: Fix colors and change stroke width to be thinner. Fix dimensions and make it responsive.
+  public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] =
+    [
       {
+        // TODO: Data coming from actor's input fields
         data: [50, 50],
+        backgroundColor: ['#42A5F5', '#66BB6A'],
+        hoverBackgroundColor: ['#64B5F6', '#81C784'],
       },
-    ],
-  };
-  public pieChartType: ChartType = 'pie';
-  public pieChartOptions: ChartOptions = {
-    responsive: true,
+    ];
+
+  //
+  public doughnutChartOptions: ChartOptions<'doughnut'> = {
+    responsive: false,
     plugins: {
+      tooltip: {
+        enabled: false,
+        // TODO: Remove labels. Only the doughnut chart should be displayed.
+        callbacks: {
+          label: function (tooltipItem) {
+            return tooltipItem.label;
+          },
+        },
+      },
       legend: {
-        position: 'top',
+        display: false,
       },
     },
   };
+
+  // -------------------------------------------------------------------
 
   paymentMethod = 'cash';
   isCash = this.paymentMethod === 'cash';
