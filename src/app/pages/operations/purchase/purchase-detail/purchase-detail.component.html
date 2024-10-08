@@ -13,6 +13,7 @@
     <div class="w-full px-2 py-3">
       <h1 class="text-center">Detalle de Compra</h1>
     </div>
+
     <!-- Purchase Review -->
     <section>
       <h2>{{ selectedProduct.title }}</h2>
@@ -32,6 +33,7 @@
         </tr>
       </table>
     </section>
+
     <!-- Payment Method -->
     <section>
       <h2>Método de Pago</h2>
@@ -59,25 +61,41 @@
       <!-- Actors List -->
       <div class="flex flex-row items-center justify-center gap-0">
         <div>
-          <!-- TODO: Dynamic list of investors -->
           <ul>
-            <li class="flex flex-row w-full gap-2 items-center justify-center">
+            <li
+              *ngFor="let actor of actors.controls; let i = index"
+              [formGroupName]="i"
+              class="flex flex-row w-full gap-2 items-center justify-center"
+            >
               <div class="h-4 w-4 bg-red-500 rounded-full"></div>
               <p class="overflow-hidden text-ellipsis text-nowrap">
-                Edgar Quiñónez
+                {{ actorList[i].name }}
               </p>
               <label
                 class="flex flex-row border border-solid border-primary p-1 w-16 rounded-md"
               >
                 <p class="font-bold mr-1">$</p>
-                <input type="number" name="quantity" class="w-full" />
+                <input
+                  type="number"
+                  name="quantity"
+                  class="w-full"
+                  formControlName="quantity"
+                  [formControl]="getQuantityControl(actor)"
+                />
               </label>
               <label
                 class="flex flex-row border border-solid border-primary p-1 w-16 rounded-md"
               >
-                <input type="number" name="percentage" class="w-full" />
+                <input
+                  type="number"
+                  name="percentage"
+                  formControlName="percentage"
+                  [formControl]="getPercentageControl(actor)"
+                  class="w-full"
+                />
                 <p class="font-bold">%</p>
               </label>
+              <button type="button" (click)="removeActor(i)">Quitar</button>
             </li>
           </ul>
           <button
@@ -88,7 +106,8 @@
             <p>Agregar Inversionista</p>
           </button>
         </div>
-        <!-- TODO: Fix SSR error with chart.js "NOT YET IMPLEMENTED" https://stackoverflow.com/questions/34294054/how-to-implement-single-line-ellipsis-with-css -->
+
+        <!-- Doughnut Chart -->
         <canvas
           baseChart
           [labels]="doughnutChartLabels"
@@ -106,7 +125,6 @@
 
   <!-- Submit Button -->
   <div class="py-3 self-end">
-    <!-- TODO: Should submit the form, show a success message and redirect to inventory maybe -->
     <button class="primary bg-secondary">
       <p>Terminar</p>
       <lucide-icon [img]="ChevronRightIcon" />
