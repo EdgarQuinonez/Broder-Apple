@@ -27,9 +27,12 @@
     </div>
 
     <!-- Results -->
-    <ul *ngIf="fakeResults.length > 0" class="mt-4 h-[18rem] w-full bg-accent">
+    <ul
+      *ngIf="searchResults.length > 0"
+      class="mt-4 h-[18rem] w-full bg-accent"
+    >
       <li
-        *ngFor="let result of fakeResults"
+        *ngFor="let result of searchResults"
         class="my-2 flex flex-row items-center"
       >
         <label
@@ -59,7 +62,7 @@
       </li>
     </ul>
     <div
-      *ngIf="fakeResults.length === 0"
+      *ngIf="searchResults.length === 0"
       class="mt-4 h-[18rem] w-full bg-accent"
     >
       <p>No se encontraron productos.</p>

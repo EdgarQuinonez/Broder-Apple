@@ -16,6 +16,8 @@ import { NgFor, NgIf } from '@angular/common';
 import { ButtonPrimaryComponent } from '@shared/button-primary/button-primary.component';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { ProductsService } from '../../../providers/products.service';
+import { Product } from '@types';
 
 @Component({
   selector: 'app-purchase',
@@ -38,74 +40,24 @@ export class PurchaseComponent {
   PlusIcon = PlusIcon;
 
   searchTerm: string = '';
-  fakeResults: { id: number; title: string; price: number }[] = [];
+  searchResults: { id: number; title: string; price: number }[] = [];
   selectedResult: any = null;
-
-  allProducts = [
-    {
-      id: 1,
-      title: 'iPhone 12',
-      price: 5400,
-      brand: 'Apple',
-      model: 'iPhone 12',
-      storageCapacity: '128GB',
-      carrier: 'Unlocked',
-      simSlots: 1,
-      seller: 'Best Buy',
-      buyoutPrice: 5500,
-      shippingCosts: 100,
-    },
-    {
-      id: 2,
-      title: 'Samsung Galaxy S21',
-      price: 5400,
-      brand: 'Samsung',
-      model: 'Galaxy S21',
-      storageCapacity: '256GB',
-      carrier: 'T-Mobile',
-      simSlots: 1,
-      seller: 'Amazon',
-      buyoutPrice: 5300,
-      shippingCosts: 80,
-    },
-    {
-      id: 3,
-      title: 'OnePlus 9',
-      price: 5400,
-      brand: 'OnePlus',
-      model: '9',
-      storageCapacity: '128GB',
-      carrier: 'Unlocked',
-      simSlots: 2,
-      seller: 'OnePlus Store',
-      buyoutPrice: 5400,
-      shippingCosts: 50,
-    },
-    {
-      id: 4,
-      title: 'Google Pixel 5',
-      price: 5400,
-      brand: 'Google',
-      model: 'Pixel 5',
-      storageCapacity: '128GB',
-      carrier: 'Verizon',
-      simSlots: 1,
-      seller: 'Google Store',
-      buyoutPrice: 5400,
-      shippingCosts: 70,
-    },
-  ];
+  allProducts: Product[] = [];
 
   selectedResultId: number | null = null;
   fragment$!: Observable<string | null>;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private productsService: ProductsService
+  ) {
+    this.allProducts = this.productsService.getAllProducts();
+  }
 
   ngOnInit() {
-    // Populate products based on search or all products
-    this.fakeResults = [...this.allProducts];
+    this.searchResults = [...this.allProducts];
 
-    // Access query params and fragments from the route
     this.route.queryParams.subscribe((params) => {
       const productId = params['id'];
       if (productId) {
@@ -116,7 +68,6 @@ export class PurchaseComponent {
       }
     });
 
-    // Access fragment
     this.fragment$ = this.route.fragment;
   }
 
@@ -124,9 +75,9 @@ export class PurchaseComponent {
     const searchValue = event.target.value.trim().toLowerCase();
 
     if (searchValue === '') {
-      this.fakeResults = [...this.allProducts];
+      this.searchResults = [...this.allProducts];
     } else {
-      this.fakeResults = this.allProducts.filter((product) =>
+      this.searchResults = this.allProducts.filter((product) =>
         product.title.toLowerCase().includes(searchValue)
       );
     }
