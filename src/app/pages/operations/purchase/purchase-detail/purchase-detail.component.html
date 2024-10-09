@@ -59,7 +59,7 @@
     <section>
       <h2>Distribución de la Inversión</h2>
       <!-- Actors List -->
-      <div class="flex flex-row items-center justify-center gap-0">
+      <div class="flex items-center justify-center gap-2">
         <div>
           <ul>
             <li
@@ -86,18 +86,20 @@
               <label
                 class="flex flex-row border border-solid border-primary p-1 w-16 rounded-md"
               >
+                <p class="font-bold">%</p>
                 <input
                   type="number"
                   name="percentage"
                   formControlName="percentage"
                   [formControl]="getPercentageControl(actor)"
                   class="w-full"
+                  readonly
                 />
-                <p class="font-bold">%</p>
               </label>
               <button type="button" (click)="removeActor(i)">Quitar</button>
             </li>
           </ul>
+          <!-- TODO: add actor should open a different form to add a partner to the company -->
           <button
             type="button"
             class="bg-primary flex flex-row items-center justify-center gap-2"
@@ -115,8 +117,6 @@
           [options]="doughnutChartOptions"
           [legend]="true"
           [type]="'doughnut'"
-          width="94"
-          height="94"
         >
         </canvas>
       </div>
@@ -125,7 +125,8 @@
 
   <!-- Submit Button -->
   <div class="py-3 self-end">
-    <button class="primary bg-secondary">
+    <!-- TODO: Replace disabled with form validation (availableAmount for payment method >= totalCost) -->
+    <button class="primary bg-secondary" type="submit" [disabled]="false">
       <p>Terminar</p>
       <lucide-icon [img]="ChevronRightIcon" />
     </button>
