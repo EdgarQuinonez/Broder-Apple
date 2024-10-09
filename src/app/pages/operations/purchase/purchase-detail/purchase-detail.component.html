@@ -61,44 +61,7 @@
       <!-- Actors List -->
       <div class="flex items-center justify-center gap-2">
         <div>
-          <ul>
-            <li
-              *ngFor="let actor of actors.controls; let i = index"
-              [formGroupName]="i"
-              class="flex flex-row w-full gap-2 items-center justify-center"
-            >
-              <div class="h-4 w-4 bg-red-500 rounded-full"></div>
-              <p class="overflow-hidden text-ellipsis text-nowrap">
-                {{ actorList[i].name }}
-              </p>
-              <label
-                class="flex flex-row border border-solid border-primary p-1 w-16 rounded-md"
-              >
-                <p class="font-bold mr-1">$</p>
-                <input
-                  type="number"
-                  name="quantity"
-                  class="w-full"
-                  formControlName="quantity"
-                  [formControl]="getQuantityControl(actor)"
-                />
-              </label>
-              <label
-                class="flex flex-row border border-solid border-primary p-1 w-16 rounded-md"
-              >
-                <p class="font-bold">%</p>
-                <input
-                  type="number"
-                  name="percentage"
-                  formControlName="percentage"
-                  [formControl]="getPercentageControl(actor)"
-                  class="w-full"
-                  readonly
-                />
-              </label>
-              <button type="button" (click)="removeActor(i)">Quitar</button>
-            </li>
-          </ul>
+          <app-actor-list />
           <!-- TODO: add actor should open a different form to add a partner to the company -->
           <button
             type="button"
