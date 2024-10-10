@@ -1,24 +1,30 @@
-<ul>
+<ul class="flex flex-col items-center justify-start w-full px-2 py-1 gap-1">
   @for (actor of actors; track actor.name; let i = $index) {
-  <li class="flex flex-row w-full gap-2 items-center justify-center">
-    <p class="overflow-hidden text-ellipsis text-nowrap">
+  <li class="flex flex-row w-full gap-2 items-center justify-start">
+    <p class="overflow-hidden text-ellipsis text-nowrap w-32 text-start">
       {{ actor.name }}
     </p>
-    <label class="flex flex-row border p-1 w-16 rounded-md">
+    <label class="flex flex-row border p-1 w-16 rounded-md border-primary">
       <p class="font-bold mr-1">$</p>
       <input
         type="number"
         class="w-full"
+        min="0"
+        [max]="totalCost"
         [formControl]="actorControls[i].get('quantity')"
+        (change)="onQuantityChange(actorControls[i].get('quantity').value, i)"
       />
     </label>
-    <label class="flex flex-row border p-1 w-16 rounded-md">
-      <p class="font-bold">%</p>
+    <label class="flex flex-row border p-1 w-16 rounded-md border-primary">
       <input
         type="number"
         class="w-full"
+        min="0"
+        max="100"
         [formControl]="actorControls[i].get('percentage')"
+        readonly
       />
+      <p class="font-bold">%</p>
     </label>
   </li>
   }
