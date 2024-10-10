@@ -64,6 +64,9 @@ export class PurchaseDetailComponent {
 
   allProducts: Product[] = [];
 
+  contributionForm!: FormGroup;
+  payload = '';
+
   constructor(
     private route: ActivatedRoute,
     private _location: Location,
@@ -101,8 +104,8 @@ export class PurchaseDetailComponent {
   handleSubmit() {
     const bodyData = {
       product: this.selectedProduct,
-      actors: this.transactionForm.value.actors,
-      paymentMethod: this.transactionForm.value.paymentMethod,
+      actors: this.contributionForm.value.actors,
+      paymentMethod: this.contributionForm.value.paymentMethod,
       totalCost: this.totalCost,
     };
 
@@ -110,5 +113,23 @@ export class PurchaseDetailComponent {
 
     // TODO: Once transaction is successful, it should create a row for Inventory for new product.
     // TODO: Debit the Inventory account and credit the Cash/Bank account for each actor.
+  }
+}
+
+export class ActorBase {
+  quantity: number;
+  percentage: number;
+  name: string;
+
+  constructor(
+    options: {
+      quantity?: number;
+      percentage?: number;
+      name: string;
+    } = { name: '' }
+  ) {
+    this.quantity = options.quantity || 0;
+    this.percentage = options.percentage || 0;
+    this.name = options.name || '';
   }
 }
