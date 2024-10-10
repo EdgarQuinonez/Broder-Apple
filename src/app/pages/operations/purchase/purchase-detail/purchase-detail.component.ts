@@ -1,11 +1,5 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  Router,
-  ActivatedRoute,
-  RouterLink,
-  RouterLinkActive,
-} from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   ArrowLeftIcon,
   BanknoteIcon,
@@ -14,30 +8,20 @@ import {
   LucideAngularModule,
   PlusIcon,
 } from 'lucide-angular';
-import { Observable, of, Subscription } from 'rxjs';
 import { Location } from '@angular/common'; // Import Location service
 import { InputRadioComponent } from '@shared/input-radio/input-radio.component';
-import {
-  FormArray,
-  FormBuilder,
-  Validators,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  AbstractControl,
-} from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { BaseChartDirective } from 'ng2-charts';
 import { ActorListComponent } from './actor-list/actor-list.component';
 import { ProductsService } from '@services/products.service';
 import { Product } from '@types';
+import { ActorControlService } from '@services/actor-control.service';
+import { ActorService } from '@services/actor.service';
 
 @Component({
   selector: 'app-purchase-detail',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     LucideAngularModule,
     RouterLink,
     RouterLinkActive,
@@ -65,12 +49,14 @@ export class PurchaseDetailComponent {
   allProducts: Product[] = [];
 
   contributionForm!: FormGroup;
-  payload = '';
+  actors: ActorBase[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private _location: Location,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private actorControlService: ActorControlService,
+    private actorService: ActorService
   ) {
     this.allProducts = this.productsService.getAllProducts();
   }
@@ -85,6 +71,10 @@ export class PurchaseDetailComponent {
     this.totalCost =
       this.selectedProduct.price + this.selectedProduct.shippingCosts;
 
+    this.actorService.getActors().subscribe((actors) => {
+      this.actors = actors;
+      this.contributionForm = this.actorControlService.toFormGroup(this.actors);
+    });
     // this.updateChart();
   }
 
