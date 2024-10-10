@@ -1,16 +1,24 @@
 <ul>
-  @for (actor of actors; track actor.name) {
+  @for (actor of actors; track actor.name; let i = $index) {
   <li class="flex flex-row w-full gap-2 items-center justify-center">
     <p class="overflow-hidden text-ellipsis text-nowrap">
       {{ actor.name }}
     </p>
     <label class="flex flex-row border p-1 w-16 rounded-md">
       <p class="font-bold mr-1">$</p>
-      <input type="number" class="w-full" />
+      <input
+        type="number"
+        class="w-full"
+        [formControl]="actorControls[i].get('quantity')"
+      />
     </label>
     <label class="flex flex-row border p-1 w-16 rounded-md">
       <p class="font-bold">%</p>
-      <input type="number" class="w-full" />
+      <input
+        type="number"
+        class="w-full"
+        [formControl]="actorControls[i].get('percentage')"
+      />
     </label>
   </li>
   }

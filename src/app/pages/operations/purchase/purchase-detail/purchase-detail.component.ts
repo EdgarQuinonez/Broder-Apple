@@ -10,7 +10,7 @@ import {
 } from 'lucide-angular';
 import { Location } from '@angular/common'; // Import Location service
 import { InputRadioComponent } from '@shared/input-radio/input-radio.component';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { ActorListComponent } from './actor-list/actor-list.component';
 import { ProductsService } from '@services/products.service';
@@ -76,6 +76,10 @@ export class PurchaseDetailComponent {
       this.contributionForm = this.actorControlService.toFormGroup(this.actors);
     });
     // this.updateChart();
+  }
+
+  get actorFormArray(): FormArray {
+    return this.contributionForm.get('actors') as FormArray;
   }
 
   // Event handler to update the chart when actorList changes

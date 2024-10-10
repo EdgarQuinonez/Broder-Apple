@@ -9,9 +9,9 @@ export class ActorService {
   // TODO: Get actors from API
 
   private actors: ActorBase[] = [
-    new ActorBase({ name: 'John Doe', quantity: 10, percentage: 25 }),
-    new ActorBase({ name: 'Jane Smith', quantity: 20, percentage: 40 }),
-    new ActorBase({ name: 'Alice Johnson', quantity: 30, percentage: 35 }),
+    new ActorBase({ name: 'John Doe', quantity: 0, percentage: 0 }),
+    new ActorBase({ name: 'Jane Smith', quantity: 0, percentage: 0 }),
+    new ActorBase({ name: 'Alice Johnson', quantity: 0, percentage: 0 }),
   ];
 
   constructor() {}

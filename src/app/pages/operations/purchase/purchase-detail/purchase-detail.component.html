@@ -61,7 +61,11 @@
       <!-- Actors List -->
       <div class="flex items-center justify-center gap-2">
         <div>
-          <app-actor-list [actors]="actors" />
+          <app-actor-list
+            [actors]="actors"
+            [actorControls]="actorFormArray.controls"
+            [totalCost]="totalCost"
+          />
           <!-- TODO: add actor should open a different form to add a partner to the company -->
           <button
             type="button"
