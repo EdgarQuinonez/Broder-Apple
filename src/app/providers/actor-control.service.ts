@@ -30,6 +30,7 @@ export class ActorControlService {
 
   createActorGroup(actor: ActorBase): FormGroup {
     return this.fb.group({
+      name: new FormControl(actor.name, Validators.required),
       quantity: new FormControl(actor.quantity, [
         Validators.required,
         Validators.min(0),

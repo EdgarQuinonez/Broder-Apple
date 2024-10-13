@@ -31,7 +31,6 @@ export class ActorListComponent {
   TrashIcon = TrashIcon;
 
   excludedActorIDs: Set<string> = new Set();
-  disabledActorsInputs: boolean[] = [];
 
   ngOnInit() {
     let previousValues: ActorBase[] = this.actorsFormArray.getRawValue();
@@ -47,8 +46,7 @@ export class ActorListComponent {
           previousValues = currentValues;
 
           if (changedIndex !== -1) {
-            const newQuantity = currentValues[changedIndex].quantity;
-            this.onQuantityChange(newQuantity, changedIndex);
+            this.onQuantityChange(changedIndex);
           }
         });
     }
@@ -68,7 +66,7 @@ export class ActorListComponent {
     return actorControl?.get('percentage') as FormControl;
   }
 
-  onQuantityChange(newQuantity: number, actorIndex: number): void {
+  onQuantityChange(actorIndex: number): void {
     const actorControl = this.getActorControls(actorIndex);
 
     if (!actorControl) return;
@@ -76,7 +74,7 @@ export class ActorListComponent {
     const excludeActorID = this.actors[actorIndex]?.name;
     if (excludeActorID) {
       this.excludedActorIDs.add(excludeActorID);
-      this.distributeContributions(newQuantity, this.excludedActorIDs);
+      this.distributeContributions();
       this.excludedActorIDs.delete(excludeActorID);
     }
   }
@@ -100,9 +98,9 @@ export class ActorListComponent {
       const isDisabled = this.isActorExcluded(actor.name);
       const actorControl = this.actorsFormArray.at(index) as FormGroup;
       if (isDisabled) {
-        actorControl.get('quantity')?.disable();
+        actorControl.get('quantity')?.disable({ emitEvent: false });
       } else {
-        actorControl.get('quantity')?.enable();
+        actorControl.get('quantity')?.enable({ emitEvent: false });
       }
     });
   }
@@ -113,49 +111,55 @@ export class ActorListComponent {
     this.actorsFormArray.removeAt(actorIndex);
 
     // TODO: Implement a way to distribute the contributions when an actor is removed
-    this.distributeContributions(this.totalCost, this.excludedActorIDs);
+    this.distributeContributions();
   }
 
-  distributeContributions(
-    newQuantity: number,
-    excludedActorIDs: Set<string>
-  ): void {
-    const remainder = this.totalCost - newQuantity;
+  distributeContributions(): void {
+    const excludedActorsSum = this.actorsFormArray.controls.reduce(
+      (sum, actor) => {
+        const actorName = actor.get('name')?.value;
+        const actorQuantity = this.sanitizeValue(actor.get('quantity')?.value);
 
-    const totalOtherQuantities = this.actors
-      .filter((actor) => !excludedActorIDs.has(actor.name))
-      .reduce((sum, actor, index) => {
-        const currentQuantity = this.sanitizeValue(
-          this.actorsFormArray.at(index).get('quantity')?.value
-        );
-        return sum + currentQuantity;
-      }, 0);
+        return this.isActorExcluded(actorName) ? sum + actorQuantity : sum;
+      },
+      0
+    );
+    // Quantity that will be distributed among the actors that are not excluded
+    // TODO: totalCost to be replaced with available budget (which ideally equals the totalCost)
+    const remainder = this.totalCost - excludedActorsSum;
 
-    if (totalOtherQuantities === 0) return;
+    const includedActorsSum = this.actorsFormArray.controls.reduce(
+      (sum, actor) => {
+        const actorName = actor.get('name')?.value;
+        const actorQuantity = this.sanitizeValue(actor.get('quantity')?.value);
 
-    this.actors.forEach((actor, index) => {
-      const actorControl = this.actorsFormArray.at(index) as FormGroup;
-      if (!excludedActorIDs.has(actor.name)) {
-        const currentQuantity = this.sanitizeValue(
-          actorControl.get('quantity')?.value
-        );
-        const newActorQuantity =
-          (remainder * currentQuantity) / totalOtherQuantities;
-        actorControl.patchValue(
-          {
-            quantity: newActorQuantity,
-            percentage: (newActorQuantity / this.totalCost) * 100 || 0,
-          },
-          { emitEvent: false }
-        );
+        return this.isActorExcluded(actorName) ? sum : sum + actorQuantity;
+      },
+      0
+    );
+
+    console.log('remainder', remainder);
+    console.log('includedActorsSum', includedActorsSum);
+    console.log('excludedActorsSum', excludedActorsSum);
+
+    this.actorsFormArray.controls.forEach((actor) => {
+      const actorName = actor.get('name')?.value;
+      const actorQuantity = this.sanitizeValue(actor.get('quantity')?.value);
+      if (this.isActorExcluded(actorName)) {
+        // No quantity changes, only percentage changes
+        actor
+          .get('percentage')
+          ?.setValue((actorQuantity / this.totalCost) * 100, {
+            emitEvent: false,
+          });
       } else {
-        // Set only the percentage for the excluded actors
-        actorControl.patchValue(
-          {
-            percentage: (newQuantity / this.totalCost) * 100 || 0,
-          },
-          { emitEvent: false }
-        );
+        const newQuantity = remainder * (actorQuantity / includedActorsSum);
+        actor.get('quantity')?.setValue(newQuantity, { emitEvent: false });
+        actor
+          .get('percentage')
+          ?.setValue((newQuantity / this.totalCost) * 100, {
+            emitEvent: false,
+          });
       }
     });
   }
