@@ -1,31 +1,47 @@
 <ul class="flex flex-col items-center justify-start w-full px-2 py-1 gap-1">
   @for (actor of actors; track actor.name; let i = $index) {
-  <li class="flex flex-row w-full gap-2 items-center justify-start">
+  <li class="flex flex-row w-full gap-2 items-center justify-between">
     <p class="overflow-hidden text-ellipsis text-nowrap w-32 text-start">
       {{ actor.name }}
     </p>
-    <label class="flex flex-row border p-1 w-16 rounded-md border-primary">
-      <p class="font-bold mr-1">$</p>
-      <input
-        type="number"
-        class="w-full"
-        min="0"
-        [max]="totalCost"
-        [formControl]="actorControls[i].get('quantity')"
-        (change)="onQuantityChange(actorControls[i].get('quantity').value, i)"
-      />
-    </label>
-    <label class="flex flex-row border p-1 w-16 rounded-md border-primary">
-      <input
-        type="number"
-        class="w-full"
-        min="0"
-        max="100"
-        [formControl]="actorControls[i].get('percentage')"
-        readonly
-      />
-      <p class="font-bold">%</p>
-    </label>
+    <div class="flex-row gap-2">
+      <label class="flex flex-row border p-1 w-16 rounded-md border-primary">
+        <p class="font-bold mr-1">$</p>
+        <input
+          type="number"
+          class="w-full"
+          min="0"
+          [max]="totalCost"
+          [formControl]="getActorQuantityControl(i)!"
+          (onchange)="onQuantityChange(getActorQuantityControl(i).value, i)"
+        />
+      </label>
+      <label class="flex flex-row border p-1 w-16 rounded-md border-primary">
+        <input
+          type="number"
+          class="w-full"
+          min="0"
+          max="100"
+          [formControl]="getActorPercentageControl(i)!"
+          readonly
+        />
+        <p class="font-bold">%</p>
+      </label>
+      <div class="flex-row">
+        <button class="unstyled" (click)="updateExcludedActors(actors[i].name)">
+          @if (isActorExcluded(excludedActorIDs[i])) {
+          <lucide-icon [img]="LockIcon" />
+          } @else {
+          <lucide-icon [img]="LockOpenIcon" />
+
+          }
+        </button>
+
+        <button class="unstyled" (click)="removeActor(i)">
+          <lucide-icon [img]="TrashIcon" />
+        </button>
+      </div>
+    </div>
   </li>
   }
 </ul>
