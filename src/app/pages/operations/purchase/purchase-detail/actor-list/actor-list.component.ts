@@ -138,21 +138,30 @@ export class ActorListComponent {
       0
     );
 
-    console.log('remainder', remainder);
-    console.log('includedActorsSum', includedActorsSum);
-    console.log('excludedActorsSum', excludedActorsSum);
-
     this.actorsFormArray.controls.forEach((actor) => {
       const actorName = actor.get('name')?.value;
       const actorQuantity = this.sanitizeValue(actor.get('quantity')?.value);
+
+      if (this.totalCost === 0) {
+        console.warn('Total cost is 0, cannot distribute contributions.');
+        return;
+      }
+
       if (this.isActorExcluded(actorName)) {
         // No quantity changes, only percentage changes
         actor
           .get('percentage')
-          ?.setValue((actorQuantity / this.totalCost) * 100, {
+          ?.setValue((actorQuantity / this.totalCost) * 100 || 0, {
             emitEvent: false,
           });
       } else {
+        if (includedActorsSum === 0) {
+          console.warn(
+            'Included actors sum is 0, cannot distribute remaining contributions.'
+          );
+          return;
+        }
+
         const newQuantity = remainder * (actorQuantity / includedActorsSum);
         actor.get('quantity')?.setValue(newQuantity, { emitEvent: false });
         actor
