@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActorBase } from '@pages/operations/purchase/purchase-detail/purchase-detail.component';
 import { contributionsEqualTotalCostValidator } from '@validators/contributions-equal-total-cost.directive';
+import { ActorService } from './actor.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,16 +27,23 @@ export class ActorControlService {
       contributionsEqualTotalCostValidator(totalCost)
     );
     actors.forEach((actor) => {
-      actorFormArray.push(this.createActorGroup(actor, totalCost));
+      actorFormArray.push(
+        this.createActorGroup(actor, totalCost, actors.length)
+      );
     });
 
     return group;
   }
 
-  createActorGroup(actor: ActorBase, totalCost: number): FormGroup {
+  createActorGroup(
+    actor: ActorBase,
+    totalCost: number,
+    numActors: number
+  ): FormGroup {
     return this.fb.group({
       name: new FormControl(actor.name, Validators.required),
-      quantity: new FormControl(actor.quantity, [
+      // TODO: By default, distribute equally across all actors. However, an actor has a limited amount of money to contribute.
+      quantity: new FormControl(totalCost / numActors, [
         Validators.required,
         Validators.min(0),
         Validators.max(totalCost),
