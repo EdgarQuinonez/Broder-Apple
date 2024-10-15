@@ -13,6 +13,7 @@
             type="number"
             class="w-full"
             [formControl]="getActorQuantityControl(i)"
+            [disabled]="isActorExcluded(actor.name)"
           />
         </label>
         <label class="flex flex-row border p-1 w-16 rounded-md border-primary">

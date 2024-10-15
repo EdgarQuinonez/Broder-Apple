@@ -90,20 +90,20 @@ export class ActorListComponent {
       this.excludedActorIDs.add(actorName);
     }
 
-    this.updateActorInputsState();
+    // this.updateActorInputsState();
   }
 
-  updateActorInputsState(): void {
-    this.actors.forEach((actor, index) => {
-      const isDisabled = this.isActorExcluded(actor.name);
-      const actorControl = this.actorsFormArray.at(index) as FormGroup;
-      if (isDisabled) {
-        actorControl.get('quantity')?.disable({ emitEvent: false });
-      } else {
-        actorControl.get('quantity')?.enable({ emitEvent: false });
-      }
-    });
-  }
+  // updateActorInputsState(): void {
+  //   this.actors.forEach((actor, index) => {
+  //     const isDisabled = this.isActorExcluded(actor.name);
+  //     const actorControl = this.actorsFormArray.at(index) as FormGroup;
+  //     if (isDisabled) {
+  //       actorControl.get('quantity')?.disable({ emitEvent: false });
+  //     } else {
+  //       actorControl.get('quantity')?.enable({ emitEvent: false });
+  //     }
+  //   });
+  // }
 
   removeActor(actorIndex: number): void {
     this.excludedActorIDs.delete(this.actors[actorIndex].name);
