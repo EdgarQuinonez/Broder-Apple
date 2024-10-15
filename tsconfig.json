@@ -29,7 +29,8 @@
       "@services/*": ["./src/app/providers/*"],
       "@models/*": ["./src/app/models/*"],
       "@utils/*": ["./src/utils/*"],
-      "@types": ["./src/types"]
+      "@types": ["./src/types"],
+      "@validators/*": ["./src/app/validators/*"]
     }
   },
   "angularCompilerOptions": {

@@ -8,7 +8,7 @@ import {
   LucideAngularModule,
   PlusIcon,
 } from 'lucide-angular';
-import { Location } from '@angular/common'; // Import Location service
+import { Location, NgClass } from '@angular/common'; // Import Location service
 import { InputRadioComponent } from '@shared/input-radio/input-radio.component';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -28,6 +28,7 @@ import { ActorService } from '@services/actor.service';
     InputRadioComponent,
     ReactiveFormsModule,
     ActorListComponent,
+    NgClass,
   ],
   templateUrl: './purchase-detail.component.html',
   styleUrl: './purchase-detail.component.scss',
@@ -41,10 +42,6 @@ export class PurchaseDetailComponent {
 
   selectedProduct: any;
   totalCost: number = 0;
-
-  paymentMethod = 'cash';
-  isCash = this.paymentMethod === 'cash';
-  isBank = this.paymentMethod === 'bank';
 
   allProducts: Product[] = [];
 
@@ -73,7 +70,10 @@ export class PurchaseDetailComponent {
 
     this.actorService.getActors().subscribe((actors) => {
       this.actors = actors;
-      this.contributionForm = this.actorControlService.toFormGroup(this.actors);
+      this.contributionForm = this.actorControlService.toFormGroup(
+        this.actors,
+        this.totalCost
+      );
     });
     // this.updateChart();
   }

@@ -44,7 +44,6 @@
         formControlName="paymentMethod"
         title="Efectivo"
         name="paymentMethod"
-        [isChecked]="isCash"
         value="cash"
       />
       <app-input-radio
@@ -52,7 +51,6 @@
         title="Banco"
         formControlName="paymentMethod"
         name="paymentMethod"
-        [isChecked]="isBank"
         value="bank"
       />
     </section>
@@ -84,7 +82,15 @@
   <!-- Submit Button -->
   <div class="py-3 self-end">
     <!-- TODO: Replace disabled with form validation (availableAmount for payment method >= totalCost) -->
-    <button class="primary bg-secondary" type="submit" [disabled]="false">
+    <button
+      class="primary bg-secondary"
+      [ngClass]="{
+        'opacity-100': !contributionForm.invalid,
+        'opacity-50': contributionForm.invalid
+      }"
+      type="submit"
+      [disabled]="contributionForm.invalid"
+    >
       <p>Terminar</p>
       <lucide-icon [img]="ChevronRightIcon" />
     </button>
