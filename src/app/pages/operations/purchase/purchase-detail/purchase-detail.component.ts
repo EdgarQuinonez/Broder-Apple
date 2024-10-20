@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import {
   ArrowLeftIcon,
   BanknoteIcon,
@@ -18,7 +23,6 @@ import { Product } from '@types';
 import { ActorControlService } from '@services/actor-control.service';
 import { ActorService } from '@services/actor.service';
 import { Observable } from 'rxjs';
-import { Router } from 'express';
 
 @Component({
   selector: 'app-purchase-detail',

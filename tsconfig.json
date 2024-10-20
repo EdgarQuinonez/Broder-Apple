@@ -33,6 +33,7 @@
       "@validators/*": ["./src/app/validators/*"]
     }
   },
+  "files": ["src/main.ts", "src/polyfills.ts"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
