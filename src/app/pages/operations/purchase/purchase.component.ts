@@ -74,23 +74,21 @@ export class PurchaseComponent {
     // TODO: address getAllProducts performance concerns
 
     this.searchProductsForm.valueChanges.subscribe((values) => {
-      console.log(values);
+      const searchQuery = values.searchQuery;
 
-      // if (!searchQuery) {
-      //   this.searchResults$ = of(this.productsService.getAllProducts());
-      //   return;
-      // }
-      // this.searchResults$ = of(
-      //   this.productsService
-      //     .getAllProducts()
-      //     .filter((product) =>
-      //       product.title.toLowerCase().includes(searchQuery.toLowerCase())
-      //     )
-      // );
+      if (!searchQuery) {
+        this.searchResults$ = of(this.productsService.getAllProducts());
+        return;
+      }
+      this.searchResults$ = of(
+        this.productsService
+          .getAllProducts()
+          .filter((product) =>
+            product.title.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+      );
     });
   }
-
-  handleSubmitSearch(): void {}
 
   handleInputChange(event: any, productId: number): void {
     this.selectedResultId = productId;

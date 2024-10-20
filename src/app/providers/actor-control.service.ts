@@ -40,15 +40,17 @@ export class ActorControlService {
     totalCost: number,
     numActors: number
   ): FormGroup {
+    const equalShare = totalCost / numActors;
+
     return this.fb.group({
       name: new FormControl(actor.name, Validators.required),
       // TODO: By default, distribute equally across all actors. However, an actor has a limited amount of money to contribute.
-      quantity: new FormControl(totalCost / numActors, [
+      quantity: new FormControl(equalShare, [
         Validators.required,
         Validators.min(0),
         Validators.max(totalCost),
       ]),
-      percentage: new FormControl(actor.percentage, [
+      percentage: new FormControl((equalShare * 100) / totalCost, [
         Validators.required,
         Validators.min(0),
         Validators.max(100),
