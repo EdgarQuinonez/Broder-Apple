@@ -63,8 +63,11 @@ export class ProductsService {
     },
   ];
 
-  // Method to get all products
   getAllProducts(): Product[] {
     return this.allProducts;
+  }
+
+  getProductById(id: number): Product | null {
+    return this.allProducts.find((product) => product.id === id) ?? null;
   }
 }

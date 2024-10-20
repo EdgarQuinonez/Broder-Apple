@@ -6,7 +6,12 @@
   </a>
 
   <!-- Search Section -->
-  <form class="mt-8 px-2">
+  <form
+    class="mt-8 px-2"
+    [formGroup]="searchProductsForm"
+    (ngSubmit)="handleSubmitSearch()"
+    autocomplete="off"
+  >
     <h1 class="my-2">Registrar Compra</h1>
     <div class="flex-row gap-2 items-center">
       <label
@@ -15,9 +20,8 @@
         <lucide-icon [img]="SearchIcon" class="mr-1" />
         <input
           type="text"
-          name="product"
-          placeholder="ej. iPhone 12"
-          (input)="onSearchChange($event)"
+          placeholder="ej. iPhone 12 el piriwiri"
+          formControlName="searchQuery"
         />
       </label>
       <button class="flex flex-row gap-1 bg-success">
@@ -27,14 +31,13 @@
     </div>
 
     <!-- Results -->
-    <ul
-      *ngIf="searchResults.length > 0"
-      class="mt-4 h-[18rem] w-full bg-accent"
-    >
-      <li
-        *ngFor="let result of searchResults"
-        class="my-2 flex flex-row items-center"
-      >
+    @if (searchResults$ | async; as searchResults) { @if (searchResults.length >
+    0) {
+
+    <ul class="mt-4 h-[18rem] w-full bg-accent">
+      @for (result of searchResults; track result.id) {
+
+      <li class="my-2 flex flex-row items-center">
         <label
           class="w-full flex flex-row items-center justify-start bg-accent h-[3.25rem] px-2 rounded-md"
         >
@@ -60,50 +63,53 @@
           </div>
         </label>
       </li>
+      }
     </ul>
-    <div
-      *ngIf="searchResults.length === 0"
-      class="mt-4 h-[18rem] w-full bg-accent"
-    >
+    } @else {
+
+    <div class="mt-4 h-[18rem] w-full bg-accent">
       <p>No se encontraron productos.</p>
     </div>
+    } }
   </form>
 
   <!-- Selected Product Info Display -->
-  <div *ngIf="selectedResult" class="mt-4 bg-accent p-4 rounded-md">
-    <h2 class="text-center">{{ selectedResult.title }}</h2>
+  <div class="mt-4 bg-accent p-4 rounded-md">
+    <h2 class="text-center">
+      {{ selectedResult?.title || "Producto no seleccionado" }}
+    </h2>
     <table class="w-full mt-4">
       <tr>
         <td class="font-bold">Marca:</td>
-        <td>{{ selectedResult.brand }}</td>
+        <td>{{ selectedResult?.brand || "No disponible" }}</td>
       </tr>
       <tr>
         <td class="font-bold">Modelo:</td>
-        <td>{{ selectedResult.model }}</td>
+        <td>{{ selectedResult?.model || "No disponible" }}</td>
       </tr>
       <tr>
         <td class="font-bold">Almacenamiento:</td>
-        <td>{{ selectedResult.storageCapacity }}</td>
+        <td>{{ selectedResult?.storageCapacity || "No disponible" }}</td>
       </tr>
       <tr>
         <td class="font-bold">Compañía:</td>
-        <td>{{ selectedResult.carrier }}</td>
+        <td>{{ selectedResult?.carrier || "No disponible" }}</td>
       </tr>
       <tr>
         <td class="font-bold">Ranuras de SIM:</td>
-        <td>{{ selectedResult.simSlots }}</td>
+        <td>{{ selectedResult?.simSlots || "No disponible" }}</td>
       </tr>
       <tr>
         <td class="font-bold">Vendedor:</td>
-        <td>{{ selectedResult.seller }}</td>
+        <td>{{ selectedResult?.seller || "No disponible" }}</td>
       </tr>
       <tr>
         <td class="font-bold">Precio de Compra:</td>
-        <td>{{ selectedResult.buyoutPrice }}</td>
+        <td>{{ selectedResult?.buyoutPrice || "No disponible" }}</td>
       </tr>
       <tr>
         <td class="font-bold">Costos de Envío:</td>
-        <td>{{ selectedResult.shippingCosts }}</td>
+        <td>{{ selectedResult?.shippingCosts || "No disponible" }}</td>
       </tr>
     </table>
   </div>

@@ -17,6 +17,8 @@ import { ProductsService } from '@services/products.service';
 import { Product } from '@types';
 import { ActorControlService } from '@services/actor-control.service';
 import { ActorService } from '@services/actor.service';
+import { Observable } from 'rxjs';
+import { Router } from 'express';
 
 @Component({
   selector: 'app-purchase-detail',
@@ -44,12 +46,14 @@ export class PurchaseDetailComponent {
   totalCost: number = 0;
 
   allProducts: Product[] = [];
+  product$!: Observable<Product>;
 
   contributionForm!: FormGroup;
   actors: ActorBase[] = [];
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private _location: Location,
     private productsService: ProductsService,
     private actorControlService: ActorControlService,
@@ -60,10 +64,7 @@ export class PurchaseDetailComponent {
 
   ngOnInit() {
     const productId = Number(this.route.snapshot.paramMap.get('id'));
-
-    this.selectedProduct = this.allProducts.find(
-      (product) => product.id === productId
-    );
+    this.selectedProduct = this.productsService.getProductById(productId);
 
     this.totalCost =
       this.selectedProduct.price + this.selectedProduct.shippingCosts;
@@ -75,20 +76,11 @@ export class PurchaseDetailComponent {
         this.totalCost
       );
     });
-    // this.updateChart();
   }
 
   get actorFormArray(): FormArray {
     return this.contributionForm.get('actors') as FormArray;
   }
-
-  // Event handler to update the chart when actorList changes
-  // updateChart(actorList: any[]) {
-  //   this.doughnutChartLabels = actorList.map((actor) => actor.name);
-  //   this.doughnutChartDatasets[0].data = actorList.map(
-  //     (actor) => actor.quantity
-  //   );
-  // }
 
   goBack() {
     this._location.back();

@@ -12,23 +12,24 @@ import {
   Router,
   ActivatedRoute,
 } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common';
 import { ButtonPrimaryComponent } from '@shared/button-primary/button-primary.component';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ProductsService } from '../../../providers/products.service';
 import { Product } from '@types';
+import { AsyncPipe } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-purchase',
   standalone: true,
   imports: [
     LucideAngularModule,
-    NgIf,
-    NgFor,
     ButtonPrimaryComponent,
     RouterLink,
     RouterLinkActive,
+    AsyncPipe,
+    ReactiveFormsModule,
   ],
   templateUrl: './purchase.component.html',
   styleUrl: './purchase.component.scss',
@@ -39,62 +40,70 @@ export class PurchaseComponent {
   SearchIcon = SearchIcon;
   PlusIcon = PlusIcon;
 
-  searchTerm: string = '';
-  searchResults: { id: number; title: string; price: number }[] = [];
-  selectedResult: any = null;
-  allProducts: Product[] = [];
+  searchProductsForm = new FormGroup({
+    searchQuery: new FormControl(''),
+  });
 
+  searchResults$!: Observable<Product[]>;
+  selectedResult: Product | null = null;
   selectedResultId: number | null = null;
-  fragment$!: Observable<string | null>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private productsService: ProductsService
-  ) {
-    this.allProducts = this.productsService.getAllProducts();
-  }
+  ) {}
 
   ngOnInit() {
-    this.searchResults = [...this.allProducts];
+    this.searchResults$ = this.route.paramMap.pipe(
+      switchMap((params) => {
+        this.selectedResultId = Number(params.get('id'));
+        const products = this.productsService.getAllProducts();
+        if (this.selectedResultId) {
+          this.selectedResult =
+            products.find((product) => product.id === this.selectedResultId) ??
+            null;
+        } else if (products.length > 0) {
+          this.selectedResult = products[0];
+          this.selectedResultId = products[0].id;
+        }
+        return of(products);
+      })
+    );
 
-    this.route.queryParams.subscribe((params) => {
-      const productId = params['id'];
-      if (productId) {
-        this.selectedResult = this.allProducts.find(
-          (product) => product.id === +productId
-        );
-        this.selectedResultId = +productId;
-      }
+    // TODO: address getAllProducts performance concerns
+
+    this.searchProductsForm.valueChanges.subscribe((values) => {
+      console.log(values);
+
+      // if (!searchQuery) {
+      //   this.searchResults$ = of(this.productsService.getAllProducts());
+      //   return;
+      // }
+      // this.searchResults$ = of(
+      //   this.productsService
+      //     .getAllProducts()
+      //     .filter((product) =>
+      //       product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      //     )
+      // );
     });
-
-    this.fragment$ = this.route.fragment;
   }
 
-  onSearchChange(event: any) {
-    const searchValue = event.target.value.trim().toLowerCase();
-
-    if (searchValue === '') {
-      this.searchResults = [...this.allProducts];
-    } else {
-      this.searchResults = this.allProducts.filter((product) =>
-        product.title.toLowerCase().includes(searchValue)
-      );
-    }
-  }
+  handleSubmitSearch(): void {}
 
   handleInputChange(event: any, productId: number): void {
     this.selectedResultId = productId;
-    this.selectedResult = this.allProducts.find(
-      (product) => product.id === productId
-    );
+    this.selectedResult =
+      this.productsService
+        .getAllProducts()
+        .find((product) => product.id === productId) ?? null;
 
-    // Update the query parameters
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { id: productId },
-      fragment: 'product-details', // Optionally set a fragment
-      queryParamsHandling: 'merge', // Keep the existing query params
+
+      queryParamsHandling: 'merge',
     });
   }
 
