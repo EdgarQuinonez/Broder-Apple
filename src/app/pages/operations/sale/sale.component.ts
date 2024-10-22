@@ -110,9 +110,11 @@ export class SaleComponent {
     this.selectedResultId = productID;
   }
 
-  navigateToDetail(): void {
+  navigateToPrice(): void {
     if (this.selectedResultId !== null) {
-      this.router.navigate([`/operation/sale/${this.selectedResultId}`]);
+      this.router.navigate([
+        `/operation/sale/${this.selectedResultId}/sale-price`,
+      ]);
     }
   }
 }

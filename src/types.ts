@@ -1,3 +1,18 @@
+// TODO: Actor related to a Purchase will have quantity and percentage.
+// Actor related to a Sale will have profit.
+
+export interface Actor {
+  id: number;
+  name: string;
+}
+
+export interface InventoryActor {
+  actorID: number;
+  actor: Actor;
+  quantity: number;
+  percentage: number;
+}
+
 export interface Product {
   id: number;
   title: string;
@@ -8,7 +23,7 @@ export interface Product {
   carrier: string;
   simSlots: number;
   seller: string;
-  buyoutPrice: number;
+
   shippingCosts: number;
   estimatedSalePrice?: number;
 }
@@ -18,6 +33,7 @@ export interface InventoryProduct {
   product: Product;
   purchaseDate: Date;
   isListedForSale: boolean;
+  actors: InventoryActor[];
 }
 
 export interface Sale {
@@ -27,5 +43,6 @@ export interface Sale {
   salePrice: number;
   buyer?: string;
   profit: number;
+  actors: Actor[];
   paymentMethod: 'bank' | 'cash';
 }

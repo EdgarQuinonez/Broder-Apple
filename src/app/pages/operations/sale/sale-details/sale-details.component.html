@@ -1,0 +1,35 @@
+<div class="w-full py-3 px-2">
+  <button class="unstyled" (click)="goBack()">
+    <lucide-icon [img]="ArrowLeftIcon" />
+  </button>
+</div>
+
+<div class="flex-1">
+  <h1>Detalle de la venta</h1>
+
+  <h2>
+    ID {{ inventoryProduct?.productID }} -
+    {{ inventoryProduct?.product?.title }}
+  </h2>
+  <table>
+    <tbody>
+      <tr>
+        <td>Precio de compra</td>
+        <td>{{ totalCost }}</td>
+      </tr>
+      <tr>
+        <td [colSpan]="2">
+          <h2>Características</h2>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Submit Button -->
+  <div class="py-3 self-end">
+    <button class="primary bg-secondary" type="submit">
+      <p>Terminar</p>
+      <lucide-icon [img]="ChevronRightIcon" />
+    </button>
+  </div>
+</div>

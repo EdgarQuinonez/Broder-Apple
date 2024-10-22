@@ -19,7 +19,6 @@ export class ProductsService {
       carrier: 'Unlocked',
       simSlots: 1,
       seller: 'Best Buy',
-      buyoutPrice: 5500,
       shippingCosts: 100,
     },
     {
@@ -32,7 +31,7 @@ export class ProductsService {
       carrier: 'T-Mobile',
       simSlots: 1,
       seller: 'Amazon',
-      buyoutPrice: 5300,
+
       shippingCosts: 80,
     },
     {
@@ -45,7 +44,7 @@ export class ProductsService {
       carrier: 'Unlocked',
       simSlots: 2,
       seller: 'OnePlus Store',
-      buyoutPrice: 5400,
+
       shippingCosts: 50,
     },
     {
@@ -58,7 +57,7 @@ export class ProductsService {
       carrier: 'Verizon',
       simSlots: 1,
       seller: 'Google Store',
-      buyoutPrice: 5400,
+
       shippingCosts: 70,
     },
   ];
@@ -69,27 +68,21 @@ export class ProductsService {
       productID: 1,
       product: this.allProducts[0],
       purchaseDate: new Date('2023-05-15'),
-
+      actors: [
+        {
+          actorID: 1,
+          actor: { id: 1, name: 'John Doe' },
+          quantity: 2500,
+          percentage: 50,
+        },
+        {
+          actorID: 2,
+          actor: { id: 2, name: 'Mortalika' },
+          quantity: 2500,
+          percentage: 50,
+        },
+      ],
       isListedForSale: false,
-    },
-    {
-      productID: 2,
-      product: this.allProducts[1],
-      purchaseDate: new Date('2023-07-10'),
-      isListedForSale: true,
-    },
-    {
-      productID: 3,
-      product: this.allProducts[2],
-      purchaseDate: new Date('2023-08-01'),
-
-      isListedForSale: false,
-    },
-    {
-      productID: 4,
-      product: this.allProducts[3],
-      purchaseDate: new Date('2023-09-05'),
-      isListedForSale: true,
     },
   ];
   getAllProducts(): Product[] {
@@ -102,5 +95,9 @@ export class ProductsService {
 
   getProductById(id: number): Product | null {
     return this.allProducts.find((product) => product.id === id) ?? null;
+  }
+
+  getInventoryProductById(id: number): InventoryProduct | null {
+    return this.inventory.find((product) => product.productID === id) ?? null;
   }
 }
