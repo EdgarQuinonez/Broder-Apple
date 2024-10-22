@@ -1,1 +1,96 @@
-sale works!
+<div class="w-full flex-1">
+  <a routerLink="" class="absolute right-2 top-2">
+    <button class="unstyled p-4">
+      <lucide-icon [img]="XIcon" />
+    </button>
+  </a>
+
+  <!-- Search Section -->
+  <form class="mt-8 px-2" [formGroup]="searchProductsForm" autocomplete="off">
+    <h1 class="my-2">Registrar venta</h1>
+    <div class="flex-row gap-2 items-center">
+      <label
+        class="flex flex-1 border border-solid border-primary rounded-md px-1 py-2"
+      >
+        <lucide-icon [img]="SearchIcon" class="mr-1" />
+        <input
+          type="text"
+          placeholder="ej. 14 Pro Max"
+          formControlName="searchQuery"
+        />
+      </label>
+    </div>
+
+    <h2>Inventario</h2>
+
+    <!-- Results -->
+    @if (searchResults$ | async; as searchResults) { @if (searchResults.length >
+    0) {
+
+    <div class="w-[calc(100vw-1rem)] overflow-x-auto bg-accent">
+      <!-- Inventory Table -->
+      <table class="table-auto w-full text-left">
+        <thead>
+          <tr class="bg-primary text-white">
+            <th></th>
+            <th>ID</th>
+            <th>Brand</th>
+            <th>Title</th>
+            <th>Model</th>
+            <th>SIM slots</th>
+            <th>Storage Capacity</th>
+            <th>Carrier</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (result of searchResults; track result.productID) {
+
+          <!-- Row with click event to select radio -->
+          <tr
+            class="bg-accent cursor-pointer"
+            (click)="handleInputChange($event, result.productID)"
+          >
+            <td>
+              <div
+                class="rounded-full w-6 h-6 relative cursor-pointer bg-primary items-center justify-center"
+              >
+                <input
+                  type="radio"
+                  name="productSelection"
+                  [value]="result.productID"
+                  [checked]="selectedResultId === result.productID"
+                  class="peer absolute opacity-0 h-0 w-0 cursor-pointer"
+                />
+                <!-- marker -->
+                <span
+                  class="absolute h-4 w-4 bg-tertiary rounded-full invisible peer-checked:visible"
+                ></span>
+              </div>
+            </td>
+            <td class="text-nowrap">{{ result.productID }}</td>
+            <td class="text-nowrap">{{ result.product.brand }}</td>
+            <td class="text-nowrap">{{ result.product.title }}</td>
+            <td class="text-nowrap">{{ result.product.model }}</td>
+            <td class="text-nowrap">{{ result.product.simSlots }}</td>
+            <td class="text-nowrap">{{ result.product.storageCapacity }}</td>
+            <td class="text-nowrap">{{ result.product.carrier }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    } @else {
+    <div class="mt-4 h-[18rem] w-full bg-accent">
+      <p>No se encontraron productos.</p>
+    </div>
+    } }
+  </form>
+</div>
+
+<div class="px-2 py-3">
+  <button class="primary bg-primary" (click)="navigateToDetail()">
+    <p>Siguiente</p>
+    <lucide-icon [img]="ChevronRightIcon" />
+  </button>
+</div>

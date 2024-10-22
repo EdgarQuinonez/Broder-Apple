@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Product } from '@types';
+import { InventoryProduct, Product } from '@types';
 
 @Injectable({
   providedIn: 'root',
@@ -63,8 +63,41 @@ export class ProductsService {
     },
   ];
 
+  // Mocked Inventory data
+  private inventory: InventoryProduct[] = [
+    {
+      productID: 1,
+      product: this.allProducts[0],
+      purchaseDate: new Date('2023-05-15'),
+
+      isListedForSale: false,
+    },
+    {
+      productID: 2,
+      product: this.allProducts[1],
+      purchaseDate: new Date('2023-07-10'),
+      isListedForSale: true,
+    },
+    {
+      productID: 3,
+      product: this.allProducts[2],
+      purchaseDate: new Date('2023-08-01'),
+
+      isListedForSale: false,
+    },
+    {
+      productID: 4,
+      product: this.allProducts[3],
+      purchaseDate: new Date('2023-09-05'),
+      isListedForSale: true,
+    },
+  ];
   getAllProducts(): Product[] {
     return this.allProducts;
+  }
+
+  getInventory(): InventoryProduct[] {
+    return this.inventory;
   }
 
   getProductById(id: number): Product | null {

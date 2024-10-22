@@ -10,4 +10,22 @@ export interface Product {
   seller: string;
   buyoutPrice: number;
   shippingCosts: number;
+  estimatedSalePrice?: number;
+}
+
+export interface InventoryProduct {
+  productID: number;
+  product: Product;
+  purchaseDate: Date;
+  isListedForSale: boolean;
+}
+
+export interface Sale {
+  saleID: number;
+  product: Product;
+  saleDate: Date;
+  salePrice: number;
+  buyer?: string;
+  profit: number;
+  paymentMethod: 'bank' | 'cash';
 }
