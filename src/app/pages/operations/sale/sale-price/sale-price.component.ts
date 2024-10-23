@@ -33,7 +33,6 @@ import { FormDataService } from '@services/form-data.service';
     NgStyle,
     ReactiveFormsModule,
   ],
-  providers: [FormDataService],
   templateUrl: './sale-price.component.html',
   styleUrl: './sale-price.component.scss',
 })
@@ -44,12 +43,11 @@ export class SalePriceComponent {
   ArrowLeftIcon = ArrowLeftIcon;
 
   paymentMethod = 'cash';
-  isCash = this.paymentMethod === 'cash';
-  isBank = this.paymentMethod === 'bank';
+  amount = 0;
 
   transactionForm = new FormGroup({
-    amount: new FormControl(0),
-    paymentMethod: new FormControl('cash'),
+    amount: new FormControl(this.amount),
+    paymentMethod: new FormControl(this.paymentMethod),
   });
 
   currentStyles = {};
@@ -67,10 +65,24 @@ export class SalePriceComponent {
 
   ngOnInit() {
     this.setCurrentStyles();
+
+    const formData = this.formDataService.getFormData();
+
+    // TODO: Fix the issue where the form data seems to be empty
+
+    const amount = formData.get('amount') || 0;
+    this.amount = Number(amount);
+
+    const paymentMethod = formData.get('paymentMethod') || 'cash';
+    this.paymentMethod = paymentMethod.toString();
+
+    this.transactionForm.patchValue({
+      amount: this.amount,
+      paymentMethod: this.paymentMethod,
+    });
   }
 
   setCurrentStyles() {
-    // const characterLength = this.amount.toString().length;
     const characterLength =
       this.transactionForm.value.amount?.toString().length;
 
@@ -88,10 +100,13 @@ export class SalePriceComponent {
     const values = this.transactionForm.value;
 
     // TODO: Run validation on the form data before appending it to the FormData object
+
     this.formDataService.appendFormData('amount', values.amount);
     this.formDataService.appendFormData('paymentMethod', values.paymentMethod);
-    // TODO: Only navigate to the next page if the form data is valid
 
+    const formData = this.formDataService.getFormData();
+
+    // TODO: Only navigate to the next page if the form data is valid
     this.router.navigate([`/operation/sale/${productID}/sale-details`]);
   }
 }

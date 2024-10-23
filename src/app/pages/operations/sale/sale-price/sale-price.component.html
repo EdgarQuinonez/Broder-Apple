@@ -32,15 +32,14 @@
       formControlName="paymentMethod"
       title="Efectivo"
       name="paymentMethod"
-      [isChecked]="isCash"
       value="cash"
+      [isChecked]="true"
     />
     <app-input-radio
       [icon]="CreditCardIcon"
       title="Banco"
       formControlName="paymentMethod"
       name="paymentMethod"
-      [isChecked]="isBank"
       value="bank"
     />
   </div>

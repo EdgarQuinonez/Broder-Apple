@@ -72,14 +72,14 @@ export class ProductsService {
         {
           actorID: 1,
           actor: { id: 1, name: 'John Doe' },
-          quantity: 2500,
-          percentage: 50,
+          quantity: 2750,
+          percentage: 0.5,
         },
         {
           actorID: 2,
           actor: { id: 2, name: 'Mortalika' },
-          quantity: 2500,
-          percentage: 50,
+          quantity: 2750,
+          percentage: 0.5,
         },
       ],
       isListedForSale: false,
