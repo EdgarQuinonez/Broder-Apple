@@ -12,6 +12,12 @@ export class FormDataService {
     }
   }
 
+  setFormData(key: string, value: any) {
+    if (value !== undefined && value !== null) {
+      this.formData.set(key, value);
+    }
+  }
+
   getFormData(): FormData {
     return this.formData;
   }

@@ -1,106 +1,119 @@
 <div class="w-full py-3 px-2">
-  <button class="unstyled" (click)="goBack()">
+  <button class="unstyled" (click)="goBack()" type="button">
     <lucide-icon [img]="ArrowLeftIcon" />
   </button>
 </div>
 
-<div class="px-2 flex-1 items-start justify-start">
-  <h1>Detalle de la venta</h1>
+<form
+  [formGroup]="saleDetailsForm"
+  (ngSubmit)="handleSubmit()"
+  class="flex flex-col justify-between flex-1"
+>
+  <div class="px-2 flex-1 items-start justify-start">
+    <h1>Detalle de la venta</h1>
 
-  <h2>
-    ID {{ inventoryProduct?.productID }} -
-    {{ inventoryProduct?.product?.title }}
-  </h2>
-  <table>
-    <tbody>
-      <tr>
-        <td>Precio de compra</td>
-        <td>{{ totalCost }}</td>
-      </tr>
-      <tr>
-        <td>Vendedor</td>
-        <td>{{ inventoryProduct?.product?.seller }}</td>
-      </tr>
-      <tr>
-        <td [colSpan]="2">
-          <h2>Características</h2>
-        </td>
-      </tr>
-      <tr>
-        <td>Marca</td>
-        <td>{{ inventoryProduct?.product?.brand }}</td>
-      </tr>
-      <tr>
-        <td>Modelo</td>
-        <td>{{ inventoryProduct?.product?.model }}</td>
-      </tr>
-      <tr>
-        <td>Capacidad de almacenamiento</td>
-        <td>{{ inventoryProduct?.product?.storageCapacity }}</td>
-      </tr>
-      <tr>
-        <td>Operadora</td>
-        <td>{{ inventoryProduct?.product?.carrier }}</td>
-      </tr>
-      <tr>
-        <td>Ranuras SIM</td>
-        <td>{{ inventoryProduct?.product?.simSlots }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <h2>Contribuciones</h2>
+    <h2>
+      ID {{ inventoryProduct?.productID }} -
+      {{ inventoryProduct?.product?.title }}
+    </h2>
+    <table>
+      <tbody>
+        <tr>
+          <td>Precio de compra</td>
+          <td>{{ formatCurrency(totalCost) }}</td>
+        </tr>
+        <tr>
+          <td>Vendedor</td>
+          <td>{{ inventoryProduct?.product?.seller }}</td>
+        </tr>
+        <tr>
+          <td [colSpan]="2">
+            <h2>Características</h2>
+          </td>
+        </tr>
+        <tr>
+          <td>Marca</td>
+          <td>{{ inventoryProduct?.product?.brand }}</td>
+        </tr>
+        <tr>
+          <td>Modelo</td>
+          <td>{{ inventoryProduct?.product?.model }}</td>
+        </tr>
+        <tr>
+          <td>Capacidad de almacenamiento</td>
+          <td>{{ inventoryProduct?.product?.storageCapacity }}</td>
+        </tr>
+        <tr>
+          <td>Operadora</td>
+          <td>{{ inventoryProduct?.product?.carrier }}</td>
+        </tr>
+        <tr>
+          <td>Ranuras SIM</td>
+          <td>{{ inventoryProduct?.product?.simSlots }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Contribuciones</h2>
 
-  <table>
-    <tbody>
-      <tr>
-        <td>
-          <p>Precio de venta</p>
-        </td>
-        <td>
-          <p>
-            <span>$</span>
-            {{ this.salePrice }}
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>Comprador</p>
-        </td>
-        <td>
-          <input type="text" placeholder="AG Jabid" />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <p>Precio de venta</p>
+          </td>
+          <td>
+            <p>
+              {{ formatCurrency(salePrice) }}
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Comprador</p>
+          </td>
+          <td>
+            <input
+              type="text"
+              formControlName="buyer"
+              placeholder="(opcional)"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Actor</th>
-        <th>Cantidad</th>
-        <th>Porcentaje</th>
-        <th>Profit</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (actor of inventoryProduct?.actors; track actor.actorID) {
+    <table>
+      <thead>
+        <tr>
+          <th>Actor</th>
+          <th>Cantidad</th>
+          <th>Porcentaje</th>
+          <th>Profit</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (actor of inventoryProduct?.actors; track actor.actorID) {
 
-      <tr>
-        <td>{{ actor.actor.name }}</td>
-        <td>{{ actor.quantity }}</td>
-        <td>{{ actor.percentage * 100 }}%</td>
-        <td>{{ calculateProfit(actor.quantity, actor.percentage) }}</td>
-      </tr>
-      }
-    </tbody>
-  </table>
-</div>
+        <tr>
+          <td>{{ actor.actor.name }}</td>
+          <td>{{ formatCurrency(salePrice * actor.percentage) }}</td>
+          <td>{{ actor.percentage * 100 }}%</td>
+          <td>
+            {{
+              formatCurrency(calculateProfit(actor.quantity, actor.percentage))
+            }}
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 
-<!-- Submit Button -->
-<div class="py-3 px-2 self-end">
-  <button class="primary bg-secondary" type="submit">
-    <p>Terminar</p>
-    <lucide-icon [img]="ChevronRightIcon" />
-  </button>
-</div>
+  <!-- Submit Button -->
+  <div class="py-3 px-2 self-end">
+    <button class="primary bg-secondary" type="submit">
+      <p>Terminar</p>
+      <lucide-icon [img]="ChevronRightIcon" />
+    </button>
+  </div>
+</form>

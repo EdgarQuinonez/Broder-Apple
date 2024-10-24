@@ -64,8 +64,6 @@ export class SalePriceComponent {
   }
 
   ngOnInit() {
-    this.setCurrentStyles();
-
     const formData = this.formDataService.getFormData();
 
     // TODO: Fix the issue where the form data seems to be empty
@@ -80,6 +78,7 @@ export class SalePriceComponent {
       amount: this.amount,
       paymentMethod: this.paymentMethod,
     });
+    this.setCurrentStyles();
   }
 
   setCurrentStyles() {
@@ -100,11 +99,8 @@ export class SalePriceComponent {
     const values = this.transactionForm.value;
 
     // TODO: Run validation on the form data before appending it to the FormData object
-
-    this.formDataService.appendFormData('amount', values.amount);
-    this.formDataService.appendFormData('paymentMethod', values.paymentMethod);
-
-    const formData = this.formDataService.getFormData();
+    this.formDataService.setFormData('amount', values.amount);
+    this.formDataService.setFormData('paymentMethod', values.paymentMethod);
 
     // TODO: Only navigate to the next page if the form data is valid
     this.router.navigate([`/operation/sale/${productID}/sale-details`]);

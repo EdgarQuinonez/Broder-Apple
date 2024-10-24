@@ -17,6 +17,7 @@ import { Observable, of, switchMap } from 'rxjs';
 import { InventoryProduct, Product } from '@types';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ProductsService } from '@services/products.service';
+import { FormDataService } from '@services/form-data.service';
 
 @Component({
   selector: 'app-sale',
@@ -48,7 +49,8 @@ export class SaleComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private formDataService: FormDataService
   ) {}
 
   ngOnInit() {
@@ -112,6 +114,8 @@ export class SaleComponent {
 
   navigateToPrice(): void {
     if (this.selectedResultId !== null) {
+      this.formDataService.clearFormData();
+
       this.router.navigate([
         `/operation/sale/${this.selectedResultId}/sale-price`,
       ]);
