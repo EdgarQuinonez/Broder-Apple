@@ -9,13 +9,19 @@ export class TokenService {
 
   constructor(private cookieService: CookieService) { }
 
-  setToken(token: string) {
+  private tokenKey = 'authToken';
+
+  setAuthToken(token: string) {
     if (token) {
-      this.cookieService.set('authToken', token); // Save token in cookies
+      this.cookieService.set(this.tokenKey, token); // Save token in cookies
     }
   }
 
   getAuthToken(): string | null {
-    return this.cookieService.get('authToken') || null; // Retrieve token from cookies
+    return this.cookieService.get(this.tokenKey) || null; // Retrieve token from cookies
+  }
+  
+  clearAuthToken() {
+    this.cookieService.delete(this.tokenKey); // Remove token from cookies
   }
 }

@@ -8,9 +8,10 @@ import { PurchaseComponent } from '@pages/operations/purchase/purchase.component
 import { SaleDetailsComponent } from '@pages/operations/sale/sale-details/sale-details.component';
 import { SalePriceComponent } from '@pages/operations/sale/sale-price/sale-price.component';
 import { SaleComponent } from '@pages/operations/sale/sale.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: DashboardComponent },
+  { path: '', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent},
   { path: 'operation/income', component: IncomeComponent },
   { path: 'operation/expense', component: ExpenseComponent },
