@@ -12,6 +12,6 @@ import { TransactionFormComponent } from '../transaction-form/transaction-form.c
   
 })
 export class IncomeComponent {
-  apiEndpoint =`${environment.api_base_url}/transaction/income/`;
+  apiEndpoint =`${environment.api_base_url}/finance/transactions/income/`;
   title = "Registrar ingreso" 
 }

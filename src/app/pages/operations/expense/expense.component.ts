@@ -12,6 +12,6 @@ import { TransactionFormComponent } from '../transaction-form/transaction-form.c
   
 })
 export class ExpenseComponent {
-  apiEndpoint =`${environment.api_base_url}/transaction/expense/`;
+  apiEndpoint =`${environment.api_base_url}/finance/transactions/expense/`;
   title = "Registrar gasto" 
 }
