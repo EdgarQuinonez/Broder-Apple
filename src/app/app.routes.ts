@@ -12,15 +12,12 @@ import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [authGuard] },
-  { path: 'login', component: LoginComponent},
-  { path: 'operation/income', component: IncomeComponent },
-  { path: 'operation/expense', component: ExpenseComponent },
-  { path: 'operation/purchase', component: PurchaseComponent },
-  { path: 'operation/purchase/:id', component: PurchaseDetailComponent },
-  { path: 'operation/sale', component: SaleComponent },
-  { path: 'operation/sale/:id/sale-price', component: SalePriceComponent },
   {
-    path: 'operation/sale/:id/sale-details',
-    component: SaleDetailsComponent,
+    path: 'auth',
+    loadChildren: () => import('@pages/auth/auth-routing.module').then(m => m.AuthRoutingModule)
   },
+  {
+    path: 'operation',
+    loadChildren: () => import('@pages/operations/operations-routing.module').then(m => m.OperationsRoutingModule)
+  }
 ];
